@@ -1,5 +1,7 @@
 FROM ubuntu:16.04 as indy-builder
 
+ARG indy_build_flags=
+
 # Install environment
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
@@ -12,9 +14,8 @@ RUN apt-get update -y && \
         libsqlite3-dev \
         libsodium-dev \
         libzmq3-dev \
-        pkg-config
-
-ARG indy_build_args=
+        pkg-config && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install rust toolchain and indy-sdk
 RUN curl -o rustup https://sh.rustup.rs && \
@@ -22,7 +23,7 @@ RUN curl -o rustup https://sh.rustup.rs && \
     ./rustup -y && \
     git clone https://github.com/bcgov/indy-sdk.git && \
     cd indy-sdk/libindy && \
-    $HOME/.cargo/bin/cargo build ${indy_build_args} && \
+    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
     mv target/debug/libindy.so /usr/lib && \
     cd $HOME && \
     rm -rf .cargo .rustup indy-sdk
@@ -56,15 +57,10 @@ RUN useradd -U -ms /bin/bash -u $uid indy
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
         apt-transport-https \
-        ca-certificates \
-        curl \
-        git
-
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 68DB5E88
-RUN echo "deb https://repo.sovrin.org/deb xenial $indy_stream" >> /etc/apt/sources.list
-
-# Install environment
-RUN apt-get update -y && \
+        ca-certificates && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 68DB5E88 && \
+    echo "deb https://repo.sovrin.org/deb xenial $indy_stream" >> /etc/apt/sources.list && \
+    apt-get update -y && \
     apt-get install -y --no-install-recommends \
         python3.5 \
         python3-pip \
@@ -72,13 +68,16 @@ RUN apt-get update -y && \
         python3-nacl \
         python3-psutil \
         bzip2 \
+        curl \
+        git \
         libzmq5 \
         openssl \
         sqlite3 \
         indy-plenum=${indy_plenum_ver} \
         indy-node=${indy_node_ver} \
         libindy-crypto=${indy_crypto_ver} \
-        python3-indy-crypto=${indy_crypto_ver}
+        python3-indy-crypto=${indy_crypto_ver} && \
+    rm -rf /var/lib/apt/lists/* /usr/share/doc/*
 
 COPY --from=indy-builder /usr/lib/libindy.so /usr/lib/
 
