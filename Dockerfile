@@ -74,7 +74,6 @@ RUN apt-get update -y && \
         bzip2 \
         libzmq5 \
         openssl \
-        rocksdb \
         sqlite3 \
         indy-plenum=${indy_plenum_ver} \
         indy-node=${indy_node_ver} \
