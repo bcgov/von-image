@@ -24,7 +24,7 @@ RUN curl -o rustup https://sh.rustup.rs && \
     git clone https://github.com/bcgov/indy-sdk.git && \
     cd indy-sdk/libindy && \
     $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
-    mv target/debug/libindy.so /usr/lib && \
+    mv target/*/libindy.so /usr/lib && \
     cd $HOME && \
     rm -rf .cargo .rustup indy-sdk
 
