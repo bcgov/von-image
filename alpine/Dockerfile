@@ -117,6 +117,7 @@ RUN apk update && \
         gmp \
         libressl@alpine36 \
         libsodium@alpine36 \
+        libstdc++ \
         musl=1.1.18-r3 \
         py3-pynacl \
         python3-dev \
