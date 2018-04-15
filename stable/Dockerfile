@@ -87,7 +87,7 @@ COPY --from=indy-builder /usr/lib/libindy.so /usr/lib/
 # - In order to drop the root user, we have to make some directories world
 #   writable as OpenShift default security model is to run the container
 #   under random UID.
-RUN pip3 --no-cache-dir install --upgrade pip && \
+RUN pip3 --no-cache-dir install --upgrade pip~=9.0.0 && \
     ln -sf /usr/bin/python3 /usr/bin/python && \
     ln -sf /usr/bin/pip3 /usr/bin/pip && \
     pip --no-cache-dir install virtualenv && \
