@@ -76,14 +76,16 @@ ARG indy_plenum_ver=1.2.237
 ARG python3_indy_ver=1.3.1-dev-408
 
 # install indy python packages
-RUN apk add --no-cache build-base linux-headers && \
+RUN apk add --no-cache build-base linux-headers libffi-dev autoconf automake libtool && \
 	pip --no-cache-dir install \
         python3-indy==${python3_indy_ver} \
         indy-plenum-dev==${indy_plenum_ver} \
         indy-anoncreds-dev==${indy_anoncreds_ver} \
         indy-node-dev==${indy_node_ver} \
-        indy-crypto==${indy_crypto_ver} && \
-    apk del build-base linux-headers
+        indy-crypto==${indy_crypto_ver} \
+        "git+https://github.com/bcgov/von_agent#egg=von-agent" \
+        "git+https://github.com/cywolf/didauth.git" && \
+    apk del build-base linux-headers libffi-dev autoconf automake libtool
 
 
 # start fresh without build dependencies
@@ -115,6 +117,7 @@ RUN apk update && \
         ca-certificates \
         git \
         gmp \
+        libffi \
         libressl@alpine36 \
         libsodium@alpine36 \
         libstdc++ \
