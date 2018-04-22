@@ -3,7 +3,7 @@ FROM ubuntu:16.04 as builder
 # set to --release for smaller, optimized library
 ARG indy_build_flags=
 
-# 3.5.x required for indy-node (von-network), 3.6.x for tob-api
+# 3.5.3+ required
 ARG python_version=3.5.5
 
 ARG indy_anoncreds_ver=1.0.32
@@ -119,14 +119,19 @@ RUN apt-get update -y && \
 
 WORKDIR $HOME
 
-COPY --from=builder /usr/local/lib/libpbc*.so /usr/local/lib/
-
-COPY --from=builder /usr/local/lib/libindy*.so /usr/local/lib/
-
 COPY --from=builder --chown=indy:indy $HOME .
 
+COPY --from=builder --chown=indy:indy \
+    /usr/local/lib/libpbc*.so \
+    /usr/local/lib/libindy*.so \
+    $HOME/lib/
+
+# Add selected version of python to the path
 ENV PYENV_ROOT="$HOME/.pyenv"
 ENV PATH="$HOME/bin:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+
+# Make libraries resolvable by python
+ENV LD_LIBRARY_PATH="$HOME/lib:$LD_LIBRARY_PATH"
 
 USER indy
 
