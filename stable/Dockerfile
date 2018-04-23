@@ -83,7 +83,7 @@ RUN pip install --no-cache-dir --upgrade \
         indy-node-dev==${indy_node_ver} \
         python3-indy==${python3_indy_ver} \
         von-agent==0.6.5 \
-        "git+https://github.com/PSPC-SPAC-buyandsell/didauth.git#master"
+        "git+https://github.com/PSPC-SPAC-buyandsell/didauth.git"
 
 
 # start fresh
