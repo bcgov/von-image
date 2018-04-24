@@ -129,6 +129,10 @@ COPY --from=builder --chown=indy:indy \
 # Add selected version of python to the path
 ENV PYENV_ROOT="$HOME/.pyenv"
 ENV PATH="$HOME/bin:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+RUN ln -s "$PYENV_ROOT/shims/python" /usr/bin/python && \
+    ln -s "$PYENV_ROOT/shims/python3" /usr/bin/python3 && \
+    ln -s "$PYENV_ROOT/shims/pip" /usr/bin/pip && \
+    ln -s "$PYENV_ROOT/shims/pip3" /usr/bin/pip3
 
 # Make libraries resolvable by python
 ENV LD_LIBRARY_PATH="$HOME/lib:$LD_LIBRARY_PATH"
