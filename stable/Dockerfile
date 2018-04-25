@@ -11,8 +11,11 @@ ARG indy_crypto_ver=0.2.0
 ARG indy_node_ver=1.2.297
 ARG indy_plenum_ver=1.2.237
 ARG python3_indy_ver=1.3.1-dev-408
+ARG indy_crypto_rev=96c79b36c5056eade5a8e3bae418f5a733cc8d8d
 
 ENV HOME=/home/indy
+WORKDIR $HOME
+RUN mkdir ./bin ./lib
 
 # Install environment
 RUN apt-get update -y && \
@@ -45,10 +48,8 @@ RUN curl -o pbc-${pbc_lib_ver}.tar.gz https://crypto.stanford.edu/pbc/files/pbc-
     ./configure && \
     make install && \
     cd .. && \
+    cp /usr/local/lib/libpbc*.so "$HOME/lib" && \
     rm -rf pbc-${pbc_lib_ver}*
-
-ARG indy_crypto_rev=96c79b36c5056eade5a8e3bae418f5a733cc8d8d
-WORKDIR $HOME
 
 # Install rust toolchain and indy-sdk
 RUN curl -o rustup https://sh.rustup.rs && \
@@ -58,11 +59,11 @@ RUN curl -o rustup https://sh.rustup.rs && \
     git clone https://github.com/hyperledger/indy-crypto.git && \
     cd indy-sdk/libindy && \
     $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
-    mv target/*/libindy.so /usr/local/lib && \
+    mv target/*/libindy.so "$HOME/lib" && \
     cd $HOME/indy-crypto/libindy-crypto && \
     git checkout ${indy_crypto_rev} && \
     $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
-    mv target/*/libindy_crypto.so /usr/local/lib && \
+    mv target/*/libindy_crypto.so "$HOME/lib" && \
     cd $HOME && \
     rm -rf .cargo .multirust .profile .rustup rustup indy-sdk indy-crypto
 
@@ -83,7 +84,7 @@ RUN pip install --no-cache-dir --upgrade \
         indy-node-dev==${indy_node_ver} \
         python3-indy==${python3_indy_ver} \
         von-agent==0.6.5 \
-        "git+https://github.com/PSPC-SPAC-buyandsell/didauth.git"
+        "git+https://github.com/PSPC-SPAC-buyandsell/didauth.git#master"
 
 
 # start fresh
@@ -98,6 +99,7 @@ ENV LANG="C.UTF-8"
 ENV SHELL=/bin/bash
 ENV RUST_LOG=warning
 
+# Add indy user
 RUN useradd -U -ms /bin/bash -u $uid indy
 
 # Install environment
@@ -119,16 +121,13 @@ RUN apt-get update -y && \
 
 WORKDIR $HOME
 
+# Copy build results
 COPY --from=builder --chown=indy:indy $HOME .
-
-COPY --from=builder --chown=indy:indy \
-    /usr/local/lib/libpbc*.so \
-    /usr/local/lib/libindy*.so \
-    $HOME/lib/
 
 # Add selected version of python to the path
 ENV PYENV_ROOT="$HOME/.pyenv"
 ENV PATH="$HOME/bin:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+# Support standard python paths used in scripts
 RUN ln -s "$PYENV_ROOT/shims/python" /usr/bin/python && \
     ln -s "$PYENV_ROOT/shims/python3" /usr/bin/python3 && \
     ln -s "$PYENV_ROOT/shims/pip" /usr/bin/pip && \
