@@ -9,7 +9,6 @@ VERSIONS = {
             "indy_crypto_ver": "0.2.0",
             "indy_node_ver": "1.2.297",
             "indy_plenum_ver": "1.2.237",
-            #"python3_indy_ver": 1.3.1-dev-408
             "indy_crypto_rev": "96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
         }
     }
@@ -18,8 +17,7 @@ VERSIONS = {
 DEFAULT_NAME = 'andrewwhitehead/von-image'
 PY_35_VERSION = '3.5.5'
 PY_36_VERSION = '3.6.3'
-
-#ARG indy_build_flags=
+INDY_SDK_VERSION_ARG = 'python3_indy_ver'
 
 
 parser = argparse.ArgumentParser(description='Generate a von-image Docker image')
@@ -43,6 +41,7 @@ py_ver = args.python or PY_35_VERSION
 
 build_args = {}
 ver = VERSIONS[args.version]
+build_args[INDY_SDK_VERSION_ARG] = args.version
 build_args.update(ver['args'])
 build_args['python_version'] = py_ver
 if args.release:
