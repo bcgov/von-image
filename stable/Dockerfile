@@ -13,6 +13,8 @@ ARG indy_plenum_ver=1.2.237
 ARG python3_indy_ver=1.3.1-dev-408
 ARG indy_crypto_rev=96c79b36c5056eade5a8e3bae418f5a733cc8d8d
 
+ARG pbc_lib_ver=0.5.14
+
 ENV HOME=/home/indy
 WORKDIR $HOME
 RUN mkdir ./bin ./lib
@@ -41,7 +43,6 @@ RUN apt-get update -y && \
     rm -rf /var/lib/apt/lists/*
 
 # Build and install pbc library
-ARG pbc_lib_ver=0.5.14
 RUN curl -o pbc-${pbc_lib_ver}.tar.gz https://crypto.stanford.edu/pbc/files/pbc-${pbc_lib_ver}.tar.gz && \
     tar xzvf pbc-${pbc_lib_ver}.tar.gz && \
     cd pbc-${pbc_lib_ver} && \
@@ -72,7 +73,13 @@ ENV PYENV_ROOT="$HOME/.pyenv"
 ENV PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
 RUN git clone https://github.com/pyenv/pyenv.git "$PYENV_ROOT" && \
     pyenv install $python_version && \
-    pyenv global $python_version
+    pyenv global $python_version && \
+    find "$PYENV_ROOT" -depth \
+		\( \
+			\( -type d -a \( -name test -o -name tests \) \) \
+			-o \
+			\( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
+		\) -exec rm -rf '{}' +
 
 # Update pip and install indy python libraries
 RUN pip install --no-cache-dir --upgrade \
