@@ -11,6 +11,9 @@ ARG indy_crypto_ver=0.2.0
 ARG indy_node_ver=1.2.297
 ARG indy_plenum_ver=1.2.237
 ARG python3_indy_ver=1.3.1-dev-408
+ARG indy_sdk_repo=https://github.com/bcgov/indy-sdk.git
+ARG indy_sdk_rev=574ca3a881d188c3fd7400d27acbe5edc4c7f666
+ARG indy_crypto_repo=https://github.com/hyperledger/indy-crypto.git
 ARG indy_crypto_rev=96c79b36c5056eade5a8e3bae418f5a733cc8d8d
 
 ARG pbc_lib_ver=0.5.14
@@ -56,9 +59,10 @@ RUN curl -o pbc-${pbc_lib_ver}.tar.gz https://crypto.stanford.edu/pbc/files/pbc-
 RUN curl -o rustup https://sh.rustup.rs && \
     chmod +x rustup && \
     ./rustup -y && \
-    git clone https://github.com/bcgov/indy-sdk.git && \
-    git clone https://github.com/hyperledger/indy-crypto.git && \
+    git clone $indy_sdk_repo && \
+    git clone $indy_crypto_repo && \
     cd indy-sdk/libindy && \
+    git checkout ${indy_sdk_rev} && \
     $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
     mv target/*/libindy.so "$HOME/lib" && \
     cd $HOME/indy-crypto/libindy-crypto && \
@@ -85,6 +89,7 @@ RUN git clone https://github.com/pyenv/pyenv.git "$PYENV_ROOT" && \
 RUN pip install --no-cache-dir --upgrade \
         pip~=9.0.0 \
         base58==0.2.5 \
+        rlp==0.6.0 \
         indy-anoncreds-dev==${indy_anoncreds_ver} \
         indy-crypto==${indy_crypto_ver} \
         indy-plenum-dev==${indy_plenum_ver} \
