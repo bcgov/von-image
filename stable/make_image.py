@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 
 import argparse
+import os.path
 import subprocess
 import sys
 
 VERSIONS = {
     "1.3.1-dev-408": {
         "args": {
-            "indy_anoncreds_ver": "1.0.32",
-            "indy_crypto_ver": "0.2.0",
-            "indy_node_ver": "1.2.297",
-            "indy_plenum_ver": "1.2.237",
+            "indy_sdk_repo": "https://github.com/bcgov/indy-sdk.git",
+            "indy_sdk_rev": "574ca3a881d188c3fd7400d27acbe5edc4c7f666",
+            "indy_crypto_repo": "https://github.com/hyperledger/indy-crypto.git",
             "indy_crypto_rev": "96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
         }
     }
@@ -19,7 +19,6 @@ VERSIONS = {
 DEFAULT_NAME = 'andrewwhitehead/von-image'
 PY_35_VERSION = '3.5.5'
 PY_36_VERSION = '3.6.3'
-INDY_SDK_VERSION_ARG = 'python3_indy_ver'
 
 
 parser = argparse.ArgumentParser(description='Generate a von-image Docker image')
@@ -40,12 +39,15 @@ parser.add_argument('version', choices=VERSIONS.keys(), help='the predefined rel
 
 args = parser.parse_args()
 py_ver = args.python or PY_35_VERSION
+reqs_path = 'requirements-' + args.version + '.txt'
+if not os.path.exists(reqs_path):
+    raise Exception('Missing requirements file: {}'.format(reqs_path))
 
 build_args = {}
 ver = VERSIONS[args.version]
-build_args[INDY_SDK_VERSION_ARG] = args.version
 build_args.update(ver['args'])
 build_args['python_version'] = py_ver
+build_args['requirements'] = reqs_path
 if args.release:
     build_args['indy_build_flags'] = '--release'
 if args.build_arg:

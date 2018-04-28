@@ -1,16 +1,12 @@
 FROM ubuntu:16.04 as builder
 
+# 3.5.3+ required
+ARG python_version=3.5.5
+ARG requirements=requirements-1.3.1-dev-408.txt
+
 # set to --release for smaller, optimized library
 ARG indy_build_flags=
 
-# 3.5.3+ required
-ARG python_version=3.5.5
-
-ARG indy_anoncreds_ver=1.0.32
-ARG indy_crypto_ver=0.2.0
-ARG indy_node_ver=1.2.297
-ARG indy_plenum_ver=1.2.237
-ARG python3_indy_ver=1.3.1-dev-408
 ARG indy_sdk_repo=https://github.com/bcgov/indy-sdk.git
 ARG indy_sdk_rev=574ca3a881d188c3fd7400d27acbe5edc4c7f666
 ARG indy_crypto_repo=https://github.com/hyperledger/indy-crypto.git
@@ -85,19 +81,10 @@ RUN git clone https://github.com/pyenv/pyenv.git "$PYENV_ROOT" && \
 			\( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
 		\) -exec rm -rf '{}' +
 
-# Update pip and install indy python libraries
-RUN pip install --no-cache-dir --upgrade \
-        pip~=9.0.0 \
-        base58==0.2.5 \
-        rlp==0.6.0 \
-        indy-anoncreds-dev==${indy_anoncreds_ver} \
-        indy-crypto==${indy_crypto_ver} \
-        indy-plenum-dev==${indy_plenum_ver} \
-        indy-node-dev==${indy_node_ver} \
-        python3-indy==${python3_indy_ver} \
-        von-agent==0.6.5 \
-        "git+https://github.com/PSPC-SPAC-buyandsell/didauth.git#master"
+ADD $requirements requirements.txt
 
+# Update pip and install indy python libraries
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 # start fresh
 FROM ubuntu:16.04
