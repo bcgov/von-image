@@ -13,6 +13,14 @@ VERSIONS = {
             "indy_crypto_repo": "https://github.com/hyperledger/indy-crypto.git",
             "indy_crypto_rev": "96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
         }
+    },
+    "1.3.1-dev-441-ew": {
+        "args": {
+            "indy_sdk_repo": "https://github.com/bcgov/indy-sdk.git",
+            "indy_sdk_rev": "574ca3a881d188c3fd7400d27acbe5edc4c7f666",
+            "indy_crypto_repo": "https://github.com/hyperledger/indy-crypto.git",
+            "indy_crypto_rev": "96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
+        }
     }
 }
 
