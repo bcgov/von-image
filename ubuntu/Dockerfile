@@ -92,12 +92,21 @@ FROM ubuntu:16.04
 
 
 ARG uid=1001
+ARG python_version=3.5.5
 
-ENV HOME=/home/indy
-ENV LC_ALL="C.UTF-8"
-ENV LANG="C.UTF-8"
-ENV SHELL=/bin/bash
-ENV RUST_LOG=warning
+ENV HOME=/home/indy \
+    LC_ALL=C.UTF-8 \
+    LANG=C.UTF-8 \
+    PYTHON_VERSION="$python_version" \
+    PYTHONUNBUFFERED=1 \
+    PYTHONIOENCODING=UTF-8 \
+    RUST_LOG=warning \
+    SHELL=/bin/bash
+
+ENV SUMMARY="von-image including Python $python_version, indy-sdk, and indy-node" \
+    DESCRIPTION="von-image provides a consistent base image for running VON python web \
+components. Based on Ubuntu xenial, this image includes Python $python_version \
+as well as indy-sdk, indy-node, and supporting Python libraries such as von-agent and didauth."
 
 # Add indy user
 RUN useradd -U -ms /bin/bash -u $uid indy
