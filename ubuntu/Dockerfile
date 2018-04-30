@@ -32,6 +32,7 @@ RUN apt-get update -y && \
         libbz2-dev \
         libffi-dev \
         libgmp-dev \
+        libncurses5-dev \
         libreadline-gplv2-dev \
         libsqlite3-dev \
         libsodium-dev \
@@ -111,6 +112,7 @@ RUN apt-get update -y && \
         git \
         libffi6 \
         libgmp10 \
+        libncurses5 \
         libreadline5 \
         libsodium18 \
         libzmq5 \
