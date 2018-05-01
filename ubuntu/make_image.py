@@ -6,7 +6,7 @@ import subprocess
 import sys
 
 VERSIONS = {
-    "1.3.1-dev-408": {
+    "1.3.1-dev-441-ew": {
         "args": {
             "indy_sdk_repo": "https://github.com/bcgov/indy-sdk.git",
             "indy_sdk_rev": "574ca3a881d188c3fd7400d27acbe5edc4c7f666",
@@ -14,12 +14,12 @@ VERSIONS = {
             "indy_crypto_rev": "96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
         }
     },
-    "1.3.1-dev-441-ew": {
+    "1.3.1-dev-489-ew": {
         "args": {
-            "indy_sdk_repo": "https://github.com/bcgov/indy-sdk.git",
-            "indy_sdk_rev": "574ca3a881d188c3fd7400d27acbe5edc4c7f666",
+            "indy_sdk_repo": "https://github.com/ianco/indy-sdk.git",
+            "indy_sdk_rev": "c617b573fb233a31a2e042527c5ddd7de54ba5f3",
             "indy_crypto_repo": "https://github.com/hyperledger/indy-crypto.git",
-            "indy_crypto_rev": "96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
+            "indy_crypto_rev": "62b777dfce67b14065659b7824316b4433cd1f57",
         }
     }
 }

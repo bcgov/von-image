@@ -1,20 +1,7 @@
 FROM ubuntu:16.04 as builder
 
-# 3.5.3+ required
-ARG python_version=3.5.5
-ARG requirements=requirements-1.3.1-dev-408.txt
-
-# set to --release for smaller, optimized library
-ARG indy_build_flags=
-
-ARG indy_sdk_repo=https://github.com/bcgov/indy-sdk.git
-ARG indy_sdk_rev=574ca3a881d188c3fd7400d27acbe5edc4c7f666
-ARG indy_crypto_repo=https://github.com/hyperledger/indy-crypto.git
-ARG indy_crypto_rev=96c79b36c5056eade5a8e3bae418f5a733cc8d8d
-
-ARG pbc_lib_ver=0.5.14
-
-ENV HOME=/home/indy
+ARG user=indy
+ENV HOME="/home/$user"
 WORKDIR $HOME
 RUN mkdir ./bin ./lib
 
@@ -31,16 +18,22 @@ RUN apt-get update -y && \
         git \
         libbz2-dev \
         libffi-dev \
+        libgflags-dev \
         libgmp-dev \
+        liblz4-dev \
         libncurses5-dev \
         libreadline-gplv2-dev \
-        libsqlite3-dev \
+        libsnappy-dev \
         libsodium-dev \
+        libsqlite3-dev \
         libssl-dev \
         libtool \
         libzmq3-dev \
-        pkg-config && \
+        pkg-config \
+        zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
+
+ARG pbc_lib_ver=0.5.14
 
 # Build and install pbc library
 RUN curl -o pbc-${pbc_lib_ver}.tar.gz https://crypto.stanford.edu/pbc/files/pbc-${pbc_lib_ver}.tar.gz && \
@@ -51,6 +44,25 @@ RUN curl -o pbc-${pbc_lib_ver}.tar.gz https://crypto.stanford.edu/pbc/files/pbc-
     cd .. && \
     cp /usr/local/lib/libpbc*.so "$HOME/lib" && \
     rm -rf pbc-${pbc_lib_ver}*
+
+ARG rocksdb_lib_ver=5.13.fb
+
+# Build and install rocksdb library
+RUN git clone https://github.com/facebook/rocksdb.git && \
+    cd rocksdb && \
+	git checkout ${rocksdb_lib_ver} && \
+    CXXFLAGS="-flto -Os -s" make install-shared && \
+    cd .. && \
+    cp /usr/local/lib/librocksdb.so "$HOME/lib" && \
+    rm -rf rocksdb
+
+# set to --release for smaller, optimized library
+ARG indy_build_flags=
+
+ARG indy_sdk_repo=https://github.com/bcgov/indy-sdk.git
+ARG indy_sdk_rev=574ca3a881d188c3fd7400d27acbe5edc4c7f666
+ARG indy_crypto_repo=https://github.com/hyperledger/indy-crypto.git
+ARG indy_crypto_rev=96c79b36c5056eade5a8e3bae418f5a733cc8d8d
 
 # Install rust toolchain and indy-sdk
 RUN curl -o rustup https://sh.rustup.rs && \
@@ -69,6 +81,9 @@ RUN curl -o rustup https://sh.rustup.rs && \
     cd $HOME && \
     rm -rf .cargo .multirust .profile .rustup rustup indy-sdk indy-crypto
 
+# 3.5.3+ required
+ARG python_version=3.5.5
+
 # Install pyenv and python to user home directory
 ENV PYENV_ROOT="$HOME/.pyenv"
 ENV PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
@@ -82,6 +97,8 @@ RUN git clone https://github.com/pyenv/pyenv.git "$PYENV_ROOT" && \
 			\( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
 		\) -exec rm -rf '{}' +
 
+ARG requirements=requirements-1.3.1-dev-408.txt
+
 ADD $requirements requirements.txt
 
 # Update pip and install indy python libraries
@@ -92,9 +109,10 @@ FROM ubuntu:16.04
 
 
 ARG uid=1001
+ARG user=indy
 ARG python_version=3.5.5
 
-ENV HOME=/home/indy \
+ENV HOME="/home/$user" \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8 \
     PYTHON_VERSION="$python_version" \
@@ -109,7 +127,7 @@ components. Based on Ubuntu xenial, this image includes Python $python_version \
 as well as indy-sdk, indy-node, and supporting Python libraries such as von-agent and didauth."
 
 # Add indy user
-RUN useradd -U -ms /bin/bash -u $uid indy
+RUN useradd -U -ms /bin/bash -u $uid $user
 
 # Install environment
 RUN apt-get update -y && \
@@ -120,13 +138,17 @@ RUN apt-get update -y && \
         curl \
         git \
         libffi6 \
+        libgflags2v5 \
         libgmp10 \
+        liblz4-1 \
         libncurses5 \
         libreadline5 \
+        libsnappy1v5 \
         libsodium18 \
         libzmq5 \
         openssl \
-        sqlite3 && \
+        sqlite3 \
+        zlib1g && \
     rm -rf /var/lib/apt/lists/* /usr/share/doc/*
 
 WORKDIR $HOME
@@ -146,6 +168,6 @@ RUN ln -s "$PYENV_ROOT/shims/python" /usr/bin/python && \
 # Make libraries resolvable by python
 ENV LD_LIBRARY_PATH="$HOME/lib:$LD_LIBRARY_PATH"
 
-USER indy
+USER $user
 
 CMD ["bash"]
