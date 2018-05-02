@@ -21,7 +21,9 @@ RUN apt-get update -y && \
         libgflags-dev \
         libgmp-dev \
         liblz4-dev \
+        liblzma-dev \
         libncurses5-dev \
+        libncursesw5-dev \
         libreadline-gplv2-dev \
         libsnappy-dev \
         libsodium-dev \
@@ -53,7 +55,7 @@ RUN git clone https://github.com/facebook/rocksdb.git && \
 	git checkout ${rocksdb_lib_ver} && \
     CXXFLAGS="-flto -Os -s" make install-shared && \
     cd .. && \
-    cp /usr/local/lib/librocksdb.so "$HOME/lib" && \
+    cp -a /usr/local/lib/librocksdb.so* "$HOME/lib" && \
     rm -rf rocksdb
 
 # set to --release for smaller, optimized library
@@ -88,7 +90,7 @@ ARG python_version=3.5.5
 ENV PYENV_ROOT="$HOME/.pyenv"
 ENV PATH="$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
 RUN git clone https://github.com/pyenv/pyenv.git "$PYENV_ROOT" && \
-    pyenv install $python_version && \
+    CFLAGS="-O2" pyenv install $python_version && \
     pyenv global $python_version && \
     find "$PYENV_ROOT" -depth \
 		\( \
@@ -141,7 +143,9 @@ RUN apt-get update -y && \
         libgflags2v5 \
         libgmp10 \
         liblz4-1 \
+        liblzma5 \
         libncurses5 \
+        libncursesw5 \
         libreadline5 \
         libsnappy1v5 \
         libsodium18 \

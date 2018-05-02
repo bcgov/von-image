@@ -19,7 +19,7 @@ VERSIONS = {
             "indy_sdk_repo": "https://github.com/ianco/indy-sdk.git",
             "indy_sdk_rev": "c617b573fb233a31a2e042527c5ddd7de54ba5f3",
             "indy_crypto_repo": "https://github.com/hyperledger/indy-crypto.git",
-            "indy_crypto_rev": "62b777dfce67b14065659b7824316b4433cd1f57",
+            "indy_crypto_rev": "96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
         }
     }
 }
