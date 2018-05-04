@@ -106,16 +106,24 @@ else:
     size = int(proc_sz.stdout.decode('ascii').strip()) / 1024.0 / 1024.0
     print('%0.2f%s' % (size, 'MB'))
 
-    if args.s2i:
-        s2i_tag = tag + '-s2i'
-        s2i_cmd = [
-            'docker', 'build', '--build-arg', 'base_image=' + tag, '-t', s2i_tag,
-            '-f', target + '/Dockerfile.s2i', target
-        ]
+if args.s2i:
+    s2i_tag = tag + '-s2i'
+    s2i_cmd = [
+        'docker', 'build', '--build-arg', 'base_image=' + tag, '-t', s2i_tag,
+        '-f', target + '/Dockerfile.s2i', target
+    ]
+    if args.dry_run:
+        print(' '.join(s2i_cmd))
+    else:
         proc = subprocess.run(s2i_cmd, stdout=(subprocess.PIPE if args.quiet else None))
+        if proc.returncode:
+            print('s2i build failed')
+            sys.exit(1)
+        if args.quiet:
+            print('Successfully tagged {}'.format(s2i_tag))
 
+if not args.dry_run:
     if args.test or args.push:
-
         test_path = target + '/Dockerfile.test'
         test_tag = tag + '-test'
         proc_bt = subprocess.run(['docker', 'build', '--build-arg', 'base_image=' + tag,
@@ -130,11 +138,8 @@ else:
         print('All tests passed')
 
     if args.push:
-        print('Pushing docker image(s)...')
-        push_tags = [tag]
-        if args.s2i:
-            push_tags.append(s2i_tag)
-        proc = subprocess.run(['docker', 'push'] + push_tags)
+        print('Pushing docker image...')
+        proc = subprocess.run(['docker', 'push', s2i_tag if args.s2i else tag])
         if proc.returncode:
             print('push failed')
             sys.exit(1)
