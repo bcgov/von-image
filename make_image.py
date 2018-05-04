@@ -16,6 +16,7 @@ VERSIONS = {
         }
     },
     "1.0": {
+        "version": "1.0rc1",
         "args": {
             "indy_sdk_repo": "https://github.com/ianco/indy-sdk.git",
             "indy_sdk_rev": "c617b573fb233a31a2e042527c5ddd7de54ba5f3",
