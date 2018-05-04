@@ -3,7 +3,7 @@ FROM ubuntu:16.04 as builder
 ARG user=indy
 ENV HOME="/home/$user"
 WORKDIR $HOME
-RUN mkdir ./bin ./lib
+RUN mkdir -p .local/bin .local/etc .local/lib
 
 # Install environment
 RUN apt-get update -y && \
@@ -44,7 +44,7 @@ RUN curl -o pbc-${pbc_lib_ver}.tar.gz https://crypto.stanford.edu/pbc/files/pbc-
     ./configure && \
     make install && \
     cd .. && \
-    cp /usr/local/lib/libpbc*.so "$HOME/lib" && \
+    cp /usr/local/lib/libpbc*.so "$HOME/.local/lib" && \
     rm -rf pbc-${pbc_lib_ver}*
 
 ARG rocksdb_lib_ver=5.13.fb
@@ -55,7 +55,7 @@ RUN git clone https://github.com/facebook/rocksdb.git && \
 	git checkout ${rocksdb_lib_ver} && \
     CXXFLAGS="-flto -Os -s" make install-shared && \
     cd .. && \
-    cp -a /usr/local/lib/librocksdb.so* "$HOME/lib" && \
+    cp -a /usr/local/lib/librocksdb.so* "$HOME/.local/lib" && \
     rm -rf rocksdb
 
 # set to --release for smaller, optimized library
@@ -75,11 +75,11 @@ RUN curl -o rustup https://sh.rustup.rs && \
     cd indy-sdk/libindy && \
     git checkout ${indy_sdk_rev} && \
     $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
-    mv target/*/libindy.so "$HOME/lib" && \
+    mv target/*/libindy.so "$HOME/.local/lib" && \
     cd $HOME/indy-crypto/libindy-crypto && \
     git checkout ${indy_crypto_rev} && \
     $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
-    mv target/*/libindy_crypto.so "$HOME/lib" && \
+    mv target/*/libindy_crypto.so "$HOME/.local/lib" && \
     cd $HOME && \
     rm -rf .cargo .multirust .profile .rustup rustup indy-sdk indy-crypto
 
@@ -170,17 +170,21 @@ WORKDIR $HOME
 # Copy build results
 COPY --from=builder --chown=indy:indy $HOME .
 
-# Add selected version of python to the path
-ENV PYENV_ROOT="$HOME/.pyenv"
-ENV PATH="$HOME/bin:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+COPY --chown=indy:indy bin/ $HOME/.local/bin/
+RUN chmod ug+rwx $HOME/.local/bin/*
+
 # Support standard python paths used in scripts
+ENV PYENV_ROOT="$HOME/.pyenv"
 RUN ln -s "$PYENV_ROOT/shims/python" /usr/bin/python && \
     ln -s "$PYENV_ROOT/shims/python3" /usr/bin/python3 && \
     ln -s "$PYENV_ROOT/shims/pip" /usr/bin/pip && \
     ln -s "$PYENV_ROOT/shims/pip3" /usr/bin/pip3
 
+# Add selected version of python and local bin directories
+ENV PATH="$HOME/.local/bin:$HOME/bin:$PYENV_ROOT/shims:$PYENV_ROOT/bin:$PATH"
+
 # Make libraries resolvable by python
-ENV LD_LIBRARY_PATH="$HOME/lib:$LD_LIBRARY_PATH"
+ENV LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
 
 USER $user
 

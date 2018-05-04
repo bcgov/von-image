@@ -12,21 +12,19 @@ LABEL io.k8s.display-name="von-image s2i $image_tag" \
       io.openshift.s2i.scripts-url="image:///${STI_SCRIPTS_PATH}"
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH.
-COPY ./s2i/bin/. $STI_SCRIPTS_PATH
+COPY --chown=indy:0 ./s2i/bin/. $STI_SCRIPTS_PATH
 
 # Copy extra files to the image.
-COPY ./root/ /
+COPY --chown=indy:0 ./s2i/root/ /
 
 USER root
 
 # - In order to drop the root user, we have to make some directories world
 #   writable as OpenShift default security model is to run the container
 #   under random UID.
-RUN chown -R indy:0 $HOME $STI_SCRIPTS_PATH \
-       /usr/bin/fix-permissions /usr/bin/cgroup-limits /generate_container_user && \
+RUN chown -R indy:0 $HOME && \
     chmod -R ug+rw $HOME && \
-    chmod -R ug+rwx $STI_SCRIPTS_PATH \
-       /usr/bin/fix-permissions /usr/bin/cgroup-limits /generate_container_user
+    chmod -R ug+rwx $STI_SCRIPTS_PATH /generate_container_user
 
 USER indy
 
