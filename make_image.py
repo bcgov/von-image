@@ -7,7 +7,7 @@ import sys
 
 VERSIONS = {
     "dev-441": {
-        "version": "1.3.1-dev-441-ew",
+        "version": "indy1.3.1-dev-441-ew",
         "args": {
             "indy_sdk_repo": "https://github.com/bcgov/indy-sdk.git",
             "indy_sdk_rev": "574ca3a881d188c3fd7400d27acbe5edc4c7f666",
@@ -63,7 +63,7 @@ if tag:
     tag_name, tag_version = tag.split(':', 2)
 else:
     pfx = 'py' + py_ver[0:1] + py_ver[2:3] + '-'
-    tag_version = pfx + 'indy' + ver.get('version', args.version)
+    tag_version = pfx + ver.get('version', args.version)
     if not args.release:
         tag_version += '-debug'
     tag = tag_name + ':' + tag_version

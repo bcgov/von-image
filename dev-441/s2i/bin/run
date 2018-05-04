@@ -4,8 +4,7 @@
 # https://github.com/sclorg/s2i-python-container/blob/master/3.6/s2i/bin/run
 
 # This container puts the generate_container_user script in a different location than the reference
-# source /opt/app-root/etc/generate_container_user
-source /generate_container_user
+#source /generate_container_user
 
 set -e
 
