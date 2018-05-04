@@ -1,5 +1,11 @@
 #!/bin/bash
-# source /generate_container_user
+
+# Sourced from:
+# https://github.com/sclorg/s2i-python-container/blob/master/3.6/s2i/bin/run
+
+# This container puts the generate_container_user script in a different location than the reference
+# source /opt/app-root/etc/generate_container_user
+source /generate_container_user
 
 set -e
 
@@ -25,7 +31,6 @@ function get_default_web_concurrency() {
   fi
 
   local max=$((NUMBER_OF_CORES*2))
-
   # Require at least 43 MiB and additional 40 MiB for every worker
   local default=$(((${MEMORY_LIMIT_IN_BYTES:-MAX_MEMORY_LIMIT_IN_BYTES}/1024/1024 - 43) / 40))
   default=$((default > max ? max : default))

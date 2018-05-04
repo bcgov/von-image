@@ -1,10 +1,18 @@
+# Sourced from:
+# https://github.com/sclorg/s2i-python-container/blob/master/3.6/root/opt/app-root/etc/generate_container_user
+
 # Set current user in nss_wrapper
 USER_ID=$(id -u)
 GROUP_ID=$(id -g)
 
+# The environment variable APP_ROOT in the reference  s2i container is set to /opt/app-root
+# which matches the path used for NSS_WRAPPER_PASSWD
+# In the case of this container it is not set, and the application root is different.
+APP_ROOT=${APP_ROOT:-/home/indy}
+
 if [ x"$USER_ID" != x"0" -a x"$USER_ID" != x"1001" ]; then
 
-    NSS_WRAPPER_PASSWD=/home/indy/etc/passwd
+    NSS_WRAPPER_PASSWD=${APP_ROOT}/etc/passwd
     NSS_WRAPPER_GROUP=/etc/group
 
     cat /etc/passwd | sed -e 's/^default:/builder:/' > $NSS_WRAPPER_PASSWD

@@ -2,12 +2,15 @@
 
 """
 Script for parsing cgroup information
+
 This script will read some limits from the cgroup system and parse
 them, printing out "VARIABLE=VALUE" on each line for every limit that is
 successfully read. Output of this script can be directly fed into
 bash's export command. Recommended usage from a bash script:
+
     set -o errexit
     export_vars=$(cgroup-limits) ; export $export_vars
+
 Variables currently supported:
     MAX_MEMORY_LIMIT_IN_BYTES
         Maximum possible limit MEMORY_LIMIT_IN_BYTES can have. This is
