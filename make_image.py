@@ -6,7 +6,8 @@ import subprocess
 import sys
 
 VERSIONS = {
-    "1.3.1-dev-441-ew": {
+    "dev-441": {
+        "version": "1.3.1-dev-441-ew",
         "args": {
             "indy_sdk_repo": "https://github.com/bcgov/indy-sdk.git",
             "indy_sdk_rev": "574ca3a881d188c3fd7400d27acbe5edc4c7f666",
@@ -14,7 +15,7 @@ VERSIONS = {
             "indy_crypto_rev": "96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
         }
     },
-    "1.3.1-dev-489-ew": {
+    "1.0": {
         "args": {
             "indy_sdk_repo": "https://github.com/ianco/indy-sdk.git",
             "indy_sdk_rev": "c617b573fb233a31a2e042527c5ddd7de54ba5f3",
@@ -42,21 +43,36 @@ parser.add_argument('--python', help='use a specific python version')
 parser.add_argument('--push', action='store_true', help='push the resulting image')
 parser.add_argument('-q', '--quiet', action='store_true', help='suppress output from docker build')
 parser.add_argument('--release', action='store_true', help='produce a release build of libindy')
+parser.add_argument('--s2i', action='store_true', help='build the s2i image for this version')
 parser.add_argument('--squash', action='store_true', help='produce a smaller image')
 parser.add_argument('--test', action='store_true', help='perform tests on docker image')
 parser.add_argument('version', choices=VERSIONS.keys(), help='the predefined release version')
 
 args = parser.parse_args()
-py_ver = args.python or PY_35_VERSION
-reqs_path = 'docker/requirements-' + args.version + '.txt'
-if not os.path.exists(reqs_path):
-    raise Exception('Missing requirements file: {}'.format(reqs_path))
+ver = VERSIONS[args.version]
+py_ver = args.python or ver.get('python_version', PY_35_VERSION)
+
+target = ver.get('path', args.version)
+dockerfile = target + '/Dockerfile.ubuntu'
+if args.file:
+    dockerfile = args.file
+
+tag = args.tag
+tag_name = args.name
+if tag:
+    tag_name, tag_version = tag.split(':', 2)
+else:
+    pfx = 'py' + py_ver[0:1] + py_ver[2:3] + '-'
+    tag_version = pfx + 'indy' + ver.get('version', args.version)
+    if not args.release:
+        tag_version += '-debug'
+    tag = tag_name + ':' + tag_version
 
 build_args = {}
-ver = VERSIONS[args.version]
 build_args.update(ver['args'])
 build_args['python_version'] = py_ver
-build_args['requirements'] = reqs_path
+build_args['tag_name'] = tag_name
+build_args['tag_version'] = tag_version
 if args.release:
     build_args['indy_build_flags'] = '--release'
 if args.build_arg:
@@ -64,21 +80,9 @@ if args.build_arg:
         key, val = arg.split('=', 2)
         build_args[key] = val
 
-tag = args.tag
-if not tag:
-    pfx = args.name + ':py' + py_ver[0:1] + py_ver[2:3] + '-'
-    tag = pfx + 'indy' + args.version
-    if not args.release:
-        tag += '-debug'
-
-dockerfile = 'docker/Dockerfile.ubuntu'
-if args.file:
-    dockerfile = args.file
-
 cmd_args = []
 for k,v in build_args.items():
     cmd_args.extend(['--build-arg', '{}={}'.format(k,v)])
-target = '.'
 if dockerfile:
     cmd_args.extend(['-f', dockerfile])
 if args.no_cache:
@@ -96,34 +100,41 @@ else:
     if proc.returncode:
         print('build failed')
         sys.exit(1)
-    else:
-        if args.quiet:
-            print('Successfully tagged {}'.format(tag))
-        proc_sz = subprocess.run(['docker', 'image', 'inspect', tag, '--format={{.Size}}'], stdout=subprocess.PIPE)
-        size = int(proc_sz.stdout.decode('ascii').strip()) / 1024.0 / 1024.0
-        print('%0.2f%s' % (size, 'MB'))
-        if args.test or args.push:
-            test_path = 'Dockerfile.test'
-            with open(test_path, 'w') as docktest:
-                docktest.write('FROM {}\n'.format(tag))
-                docktest.write('COPY --chown=indy:indy test test\n')
-                docktest.write('USER root\n')
-                docktest.write('RUN test/setup.sh\n')
-                docktest.write('USER indy\n')
-                docktest.write('CMD test/validate.sh\n')
-            test_tag = tag + '-test'
-            proc_bt = subprocess.run(['docker', 'build', '-t', test_tag, '-f', test_path, '.'])
-            if proc_bt.returncode:
-                print('test image build failed')
-                sys.exit(1)
-            proc_test = subprocess.run(['docker', 'run', '--rm', '-ti', test_tag])
-            if proc_test.returncode:
-                print('One or more tests failed')
-                sys.exit(1)
-            print('All tests passed')
-        if args.push:
-            print('Pushing docker image...')
-            proc = subprocess.run(['docker', 'push', tag])
-            if proc.returncode:
-                print('push failed')
-                sys.exit(1)
+    if args.quiet:
+        print('Successfully tagged {}'.format(tag))
+    proc_sz = subprocess.run(['docker', 'image', 'inspect', tag, '--format={{.Size}}'], stdout=subprocess.PIPE)
+    size = int(proc_sz.stdout.decode('ascii').strip()) / 1024.0 / 1024.0
+    print('%0.2f%s' % (size, 'MB'))
+
+    if args.s2i:
+        s2i_tag = tag + '-s2i'
+        s2i_cmd = [
+            'docker', 'build', '--build-arg', 'base_image=' + tag, '-t', s2i_tag,
+            '-f', target + '/Dockerfile.s2i', target
+        ]
+        proc = subprocess.run(s2i_cmd, stdout=(subprocess.PIPE if args.quiet else None))
+
+    if args.test or args.push:
+
+        test_path = target + '/Dockerfile.test'
+        test_tag = tag + '-test'
+        proc_bt = subprocess.run(['docker', 'build', '--build-arg', 'base_image=' + tag,
+                                  '-t', test_tag, '-f', test_path, target])
+        if proc_bt.returncode:
+            print('test image build failed')
+            sys.exit(1)
+        proc_test = subprocess.run(['docker', 'run', '--rm', '-ti', test_tag])
+        if proc_test.returncode:
+            print('One or more tests failed')
+            sys.exit(1)
+        print('All tests passed')
+
+    if args.push:
+        print('Pushing docker image(s)...')
+        push_tags = [tag]
+        if args.s2i:
+            push_tags.append(s2i_tag)
+        proc = subprocess.run(['docker', 'push'] + push_tags)
+        if proc.returncode:
+            print('push failed')
+            sys.exit(1)
