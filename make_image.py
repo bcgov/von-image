@@ -36,6 +36,7 @@ parser.add_argument('-n', '--name', default=DEFAULT_NAME, help='the base name fo
 parser.add_argument('-t', '--tag', help='a custom tag for the docker image')
 parser.add_argument('-f', '--file', help='use a custom Dockerfile')
 parser.add_argument('--build-arg', metavar='ARG=VAL', action='append', help='add docker build arguments')
+parser.add_argument('--debug', action='store_true', help='add docker build arguments')
 parser.add_argument('--dry-run', action='store_true', help='print docker command line instead of executing')
 parser.add_argument('--no-cache', action='store_true', help='ignore docker image cache')
 parser.add_argument('--py35', dest='python', action='store_const', const=PY_35_VERSION, help='use the default python 3.5 version')
@@ -43,7 +44,7 @@ parser.add_argument('--py36', dest='python', action='store_const', const=PY_36_V
 parser.add_argument('--python', help='use a specific python version')
 parser.add_argument('--push', action='store_true', help='push the resulting image')
 parser.add_argument('-q', '--quiet', action='store_true', help='suppress output from docker build')
-parser.add_argument('--release', action='store_true', help='produce a release build of libindy')
+parser.add_argument('--release', dest='debug', action='store_false', help='produce a release build of libindy')
 parser.add_argument('--s2i', action='store_true', help='build the s2i image for this version')
 parser.add_argument('--squash', action='store_true', help='produce a smaller image')
 parser.add_argument('--test', action='store_true', help='perform tests on docker image')
@@ -65,7 +66,7 @@ if tag:
 else:
     pfx = 'py' + py_ver[0:1] + py_ver[2:3] + '-'
     tag_version = pfx + ver.get('version', args.version)
-    if not args.release:
+    if args.debug:
         tag_version += '-debug'
     tag = tag_name + ':' + tag_version
 
@@ -74,7 +75,7 @@ build_args.update(ver['args'])
 build_args['python_version'] = py_ver
 build_args['tag_name'] = tag_name
 build_args['tag_version'] = tag_version
-if args.release:
+if not args.debug:
     build_args['indy_build_flags'] = '--release'
 if args.build_arg:
     for arg in args.build_arg:
