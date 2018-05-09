@@ -18,10 +18,8 @@ VERSIONS = {
     "1.0": {
         "version": "1.0rc1",
         "args": {
-            "indy_sdk_repo": "https://github.com/ianco/indy-sdk.git",
-            "indy_sdk_rev": "c617b573fb233a31a2e042527c5ddd7de54ba5f3",
-            "indy_crypto_repo": "https://github.com/hyperledger/indy-crypto.git",
-            "indy_crypto_rev": "96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
+            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/c617b573fb233a31a2e042527c5ddd7de54ba5f3",
+            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
         }
     }
 }

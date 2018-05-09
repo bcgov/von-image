@@ -50,38 +50,15 @@ RUN curl -o pbc-${pbc_lib_ver}.tar.gz https://crypto.stanford.edu/pbc/files/pbc-
 ARG rocksdb_lib_ver=5.13.fb
 
 # Build and install rocksdb library
-RUN git clone https://github.com/facebook/rocksdb.git && \
+RUN mkdir rocksdb && \
+    curl -o rocksdb/rocksdb.tar.gz "https://codeload.github.com/facebook/rocksdb/tar.gz/${rocksdb_lib_ver}" && \
     cd rocksdb && \
-	git checkout ${rocksdb_lib_ver} && \
+    tar xzf rocksdb.tar.gz && \
+    cd ./* && \
     CXXFLAGS="-flto -Os -s" make install-shared && \
-    cd .. && \
+    cd $HOME && \
     cp -a /usr/local/lib/librocksdb.so* "$HOME/.local/lib" && \
     rm -rf rocksdb
-
-# set to --release for smaller, optimized library
-ARG indy_build_flags=
-
-ARG indy_sdk_repo=https://github.com/bcgov/indy-sdk.git
-ARG indy_sdk_rev=574ca3a881d188c3fd7400d27acbe5edc4c7f666
-ARG indy_crypto_repo=https://github.com/hyperledger/indy-crypto.git
-ARG indy_crypto_rev=96c79b36c5056eade5a8e3bae418f5a733cc8d8d
-
-# Install rust toolchain and indy-sdk
-RUN curl -o rustup https://sh.rustup.rs && \
-    chmod +x rustup && \
-    ./rustup -y && \
-    git clone $indy_sdk_repo && \
-    git clone $indy_crypto_repo && \
-    cd indy-sdk/libindy && \
-    git checkout ${indy_sdk_rev} && \
-    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
-    mv target/*/libindy.so "$HOME/.local/lib" && \
-    cd $HOME/indy-crypto/libindy-crypto && \
-    git checkout ${indy_crypto_rev} && \
-    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
-    mv target/*/libindy_crypto.so "$HOME/.local/lib" && \
-    cd $HOME && \
-    rm -rf .cargo .multirust .profile .rustup rustup indy-sdk indy-crypto
 
 # 3.5.3+ required
 ARG python_version=3.5.5
@@ -97,12 +74,42 @@ RUN git clone https://github.com/pyenv/pyenv.git "$PYENV_ROOT" && \
 			\( -type d -a \( -name test -o -name tests \) \) \
 			-o \
 			\( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
-		\) -exec rm -rf '{}' +
+		\) -exec rm -rf '{}' + && \
+	pip install --no-cache-dir --upgrade pip~=9.0.0
 
+# set to --release for smaller, optimized library
+ARG indy_build_flags=
+
+ARG indy_sdk_url=https://codeload.github.com/bcgov/indy-sdk/tar.gz/574ca3a881d188c3fd7400d27acbe5edc4c7f666
+ARG indy_crypto_url=https://codeload.github.com/hyperledger/indy-crypto/tar.gz/96c79b36c5056eade5a8e3bae418f5a733cc8d8d
+
+# Install rust toolchain and indy-sdk
+RUN curl -o rustup https://sh.rustup.rs && \
+    chmod +x rustup && \
+    ./rustup -y && \
+    mkdir indy-sdk indy-crypto && \
+    curl -o indy-sdk/indy-sdk.tar.gz "${indy_sdk_url}" && \
+    curl -o indy-crypto/indy-crypto.tar.gz "${indy_crypto_url}" && \
+    cd indy-sdk && \
+    tar xzf indy-sdk.tar.gz && \
+    cd */libindy && \
+    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
+    mv target/*/libindy.so "$HOME/.local/lib" && \
+    tar czvf python3-indy.tgz -C ../wrappers/python . && \
+    pip install --no-cache-dir python3-indy.tgz && \
+    cd $HOME/indy-crypto && \
+    tar xzf indy-crypto.tar.gz && \
+    cd */libindy-crypto && \
+    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
+    mv target/*/libindy_crypto.so "$HOME/.local/lib" && \
+    tar czvf indy-crypto.tgz -C ../wrappers/python . && \
+    pip install --no-cache-dir indy-crypto.tgz && \
+    cd $HOME && \
+    rm -rf .cargo .multirust .profile .rustup rustup indy-sdk indy-crypto
+
+# Install indy python libraries and other dependencies
 ADD requirements.txt .
-
-# Update pip and install indy python libraries
-RUN pip install --no-cache-dir --upgrade -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # start fresh
 FROM ubuntu:16.04
