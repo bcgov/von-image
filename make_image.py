@@ -131,7 +131,7 @@ if not args.dry_run:
         if proc_bt.returncode:
             print('test image build failed')
             sys.exit(1)
-        proc_test = subprocess.run(['docker', 'run', '--rm', '-ti', test_tag])
+        proc_test = subprocess.run(['docker', 'run', '--rm', '-i', test_tag])
         if proc_test.returncode:
             print('One or more tests failed')
             sys.exit(1)
