@@ -2,6 +2,7 @@
 
 import argparse
 import os.path
+import re
 import subprocess
 import sys
 
@@ -44,6 +45,7 @@ parser.add_argument('--build-arg', metavar='ARG=VAL', action='append', help='add
 parser.add_argument('--debug', action='store_true', help='add docker build arguments')
 parser.add_argument('--dry-run', action='store_true', help='print docker command line instead of executing')
 parser.add_argument('--no-cache', action='store_true', help='ignore docker image cache')
+parser.add_argument('-o', '--output', help='output an updated Dockerfile with the build arguments replaced')
 parser.add_argument('--py35', dest='python', action='store_const', const=PY_35_VERSION, help='use the default python 3.5 version')
 parser.add_argument('--py36', dest='python', action='store_const', const=PY_36_VERSION, help='use the default python 3.6 version')
 parser.add_argument('--python', help='use a specific python version')
@@ -86,6 +88,24 @@ if args.build_arg:
     for arg in args.build_arg:
         key, val = arg.split('=', 2)
         build_args[key] = val
+
+if args.output:
+    src_path = dockerfile
+    src_replace = build_args
+    if args.test:
+        src_path = target + '/Dockerfile.test'
+        src_replace = {'base_image': tag}
+    elif args.s2i:
+        src_path = target + '/Dockerfile.s2i'
+        src_replace = {'base_image': tag}
+    with open(args.output, 'w') as out:
+        with open(dockerfile) as src:
+            for line in src:
+                m = re.match(r'^ARG\s+(\w+)=(.*)$', line)
+                if m:
+                    line = 'ARG {}={}\n'.format(m.group(1), src_replace.get(m.group(1), m.group(2)))
+                out.write(line)
+    sys.exit(0)
 
 cmd_args = []
 for k,v in build_args.items():
