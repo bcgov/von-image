@@ -99,9 +99,9 @@ if args.output:
         src_path = target + '/Dockerfile.s2i'
         src_replace = {'base_image': tag}
     with open(args.output, 'w') as out:
-        with open(dockerfile) as src:
+        with open(src_path) as src:
             for line in src:
-                m = re.match(r'^ARG\s+(\w+)=(.*)$', line)
+                m = re.match(r'^ARG\s+(\w+)=?(.*)$', line)
                 if m:
                     line = 'ARG {}={}\n'.format(m.group(1), src_replace.get(m.group(1), m.group(2)))
                 out.write(line)
