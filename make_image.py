@@ -17,9 +17,9 @@ VERSIONS = {
         }
     },
     "1.0": {
-        "version": "1.0rc1",
+        "version": "1.0rc2",
         "args": {
-            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/c617b573fb233a31a2e042527c5ddd7de54ba5f3",
+            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/50ede4563a6a303b09d78ca97d3238e6c10333f6",
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
         }
     },
@@ -32,7 +32,7 @@ VERSIONS = {
     }
 }
 
-DEFAULT_NAME = 'andrewwhitehead/von-image'
+DEFAULT_NAME = 'bcgovimages/von-image'
 PY_35_VERSION = '3.5.5'
 PY_36_VERSION = '3.6.3'
 
