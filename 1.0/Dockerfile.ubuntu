@@ -55,7 +55,7 @@ RUN mkdir rocksdb && \
     cd rocksdb && \
     tar xzf rocksdb.tar.gz && \
     cd ./* && \
-    CXXFLAGS="-flto -Os -s" make install-shared && \
+    CXXFLAGS="-flto -Os -s" PORTABLE=1 make install-shared && \
     cd $HOME && \
     cp -a /usr/local/lib/librocksdb.so* "$HOME/.local/lib" && \
     rm -rf rocksdb

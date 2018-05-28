@@ -17,7 +17,7 @@ VERSIONS = {
         }
     },
     "1.0": {
-        "version": "1.0rc2",
+        "version": "1.0rc3",
         "args": {
             "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/50ede4563a6a303b09d78ca97d3238e6c10333f6",
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
