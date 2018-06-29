@@ -7,5 +7,5 @@ indy-anoncreds-dev==1.0.45
 indy-plenum-dev==1.4.406
 indy-node-dev==1.4.463
 von-agent==1.5.1
-git+https://github.com/PSPC-SPAC-buyandsell/didauth.git#v1.0
-git+https://github.com/PSPC-SPAC-buyandsell/von-x.git#agent-1.5
+git+https://github.com/PSPC-SPAC-buyandsell/didauth.git@v1.0
+git+https://github.com/PSPC-SPAC-buyandsell/von-x.git@agent-1.5
