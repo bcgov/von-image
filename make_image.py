@@ -36,6 +36,15 @@ VERSIONS = {
             "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/16c637cbe855c46bf1d3a869e9ebcfc99bb9aabf",
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/9586d6a24f53f2aa0621249f2266d0f129253c48",
         }
+    },
+    "1.6": {
+        "version": "1.6-0",
+        "args": {
+            # 1.6.1-dev-684
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/2ec4c7e93ca0070bacdc70f223d261c70aedb95c",
+            # 0.4.2
+            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/d04d8f4b0efbc6c86c203fd2b0d88ed9363ecc62",
+        }
     }
 }
 
