@@ -30,5 +30,5 @@ fi
 
 git clone https://github.com/PSPC-SPAC-buyandsell/didauth.git
 cd didauth
-git checkout v1.1
+git checkout v1.2
 pytest
