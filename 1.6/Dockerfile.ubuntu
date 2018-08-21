@@ -208,4 +208,7 @@ ENV LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
 
 USER $user
 
+# Create wallet directory
+RUN mkdir -p "$HOME/.indy_client/wallet"
+
 CMD ["bash"]
