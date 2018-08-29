@@ -18,7 +18,7 @@ if ! python test/check_txn.py .indy-cli/networks/sandbox/pool_transactions_genes
 fi
 
 
-### Run tests for von-agent ###
+### Run tests for von-anchor ###
 
 if ! python test/check_von_anchor.py; then
     echo 'von_anchor import test failed'

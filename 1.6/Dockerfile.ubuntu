@@ -148,7 +148,7 @@ ENV HOME="/home/$user" \
     SUMMARY="von-image including Python $python_version, indy-sdk, and indy-node" \
     DESCRIPTION="von-image provides a consistent base image for running VON python web \
 components. Based on Ubuntu xenial, this image includes Python $python_version \
-as well as indy-sdk, indy-node, and supporting Python libraries such as von-agent and didauth."
+as well as indy-sdk, indy-node, and supporting Python libraries such as von_anchor and didauth."
 
 LABEL summary="$SUMMARY" \
       description="$DESCRIPTION" \
