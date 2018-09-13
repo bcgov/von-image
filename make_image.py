@@ -50,7 +50,7 @@ VERSIONS = {
         "version": "1.6-ew",
         "args": {
             # ianco postgres wallet branch
-            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/520619714004520ac2237d03d10f4a3e468968d2",
+            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/c8d8ef36fb03fc292ad8e41eb49ed55b8e397ebe",
             # 0.4.2
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/d04d8f4b0efbc6c86c203fd2b0d88ed9363ecc62",
         }
