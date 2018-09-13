@@ -111,6 +111,10 @@ RUN curl -o rustup https://sh.rustup.rs && \
     mv target/*/libindy.so "$HOME/.local/lib" && \
     tar czvf python3-indy.tgz -C ../wrappers/python . && \
     pip install --no-cache-dir python3-indy.tgz && \
+    cd ../cli && \
+    LIBRARY_PATH="$HOME/.local/lib:$LIBRARY_PATH" \
+        $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
+    mv target/*/indy-cli "$HOME/.local/bin" && \
     cd $HOME/indy-crypto && \
     tar xzf indy-crypto.tar.gz && \
     cd */libindy-crypto && \
@@ -125,7 +129,8 @@ RUN curl -o rustup https://sh.rustup.rs && \
 ADD requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# start fresh
+
+## Start fresh (new image) ##
 FROM ubuntu:16.04
 
 
