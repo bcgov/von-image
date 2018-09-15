@@ -38,10 +38,8 @@ VERSIONS = {
         }
     },
     "1.6": {
-        "version": "1.6-3",
+        "version": "1.6-4",
         "args": {
-            # 1.6.1-dev-684
-            #"indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/2ec4c7e93ca0070bacdc70f223d261c70aedb95c",
             # 1.6.5
             "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/84377c712550ca14db9365335054583c8ba7d435",
             # 0.4.2
@@ -51,8 +49,8 @@ VERSIONS = {
     "1.6-ew": {
         "version": "1.6-ew",
         "args": {
-            # ianco postgres wallet branch
-            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/c8d8ef36fb03fc292ad8e41eb49ed55b8e397ebe",
+            # bcgov postgres_storage branch
+            "indy_sdk_url": "https://codeload.github.com/bcgov/indy-sdk/tar.gz/8161cd5bccc1a87ece081b09c6bbee06ef7133ff",
             # 0.4.2
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/d04d8f4b0efbc6c86c203fd2b0d88ed9363ecc62",
         }
