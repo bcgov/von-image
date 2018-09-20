@@ -50,7 +50,7 @@ VERSIONS = {
         "version": "1.6-ew",
         "args": {
             # bcgov postgres_storage branch
-            "indy_sdk_url": "https://codeload.github.com/bcgov/indy-sdk/tar.gz/8161cd5bccc1a87ece081b09c6bbee06ef7133ff",
+            "indy_sdk_url": "https://codeload.github.com/bcgov/indy-sdk/tar.gz/b7c5beebd1393b158ce4a24233f4280a3cf9b841",
             # 0.4.2
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/d04d8f4b0efbc6c86c203fd2b0d88ed9363ecc62",
         }
