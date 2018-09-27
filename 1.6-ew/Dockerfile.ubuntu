@@ -187,6 +187,7 @@ RUN apt-get update -y && \
         net-tools \
         openssl \
         sqlite3 \
+        vim-tiny \
         zlib1g && \
     rm -rf /var/lib/apt/lists/* /usr/share/doc/*
 
