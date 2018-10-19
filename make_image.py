@@ -38,19 +38,19 @@ VERSIONS = {
         }
     },
     "1.6": {
-        "version": "1.6-8",
+        "version": "1.6-9",
         "args": {
             # 1.6.7
-            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/0bb44c624fe4b64dd29d29200ebf6b208f6a9366",
+            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/ebd4caf945bc388a9ace19e03e5face81f8c8536",
             # 0.4.5
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/a2864642430064c6f00902e9b999cc6356eed9f1",
         }
     },
     "1.6-ew": {
-        "version": "1.6-ew-8",
+        "version": "1.6-ew-9",
         "args": {
             # bcgov postgres_storage branch
-            "indy_sdk_url": "https://codeload.github.com/bcgov/indy-sdk/tar.gz/04985a84d07f9e559266e2ba3bbdf3d0800ad570",
+            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/ebd4caf945bc388a9ace19e03e5face81f8c8536",
             # 0.4.2
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/d04d8f4b0efbc6c86c203fd2b0d88ed9363ecc62",
         }
