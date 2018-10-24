@@ -41,7 +41,7 @@ VERSIONS = {
         "version": "1.6-9",
         "args": {
             # 1.6.7
-            "indy_sdk_url": "https://codeload.github.com/bcgov/indy-sdk/tar.gz/76a4ed74e08f0e81ff792a795538deb099de94a1",
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/0bb44c624fe4b64dd29d29200ebf6b208f6a9366",
             # 0.4.5
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/a2864642430064c6f00902e9b999cc6356eed9f1",
         }
