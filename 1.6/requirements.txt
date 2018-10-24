@@ -6,8 +6,7 @@ rlp~=0.6.0
 indy-anoncreds-dev==1.0.46
 indy-node-dev==1.6.636
 indy-plenum-dev==1.6.566
-#von-anchor==1.6.31
-git+https://github.com/ianco/von_anchor.git
+von-anchor==1.6.32
 git+https://github.com/PSPC-SPAC-buyandsell/didauth.git@v1.2.2
 #git+https://github.com/PSPC-SPAC-buyandsell/von-x.git@v1.4.0
 git+https://github.com/ianco/von-x.git
