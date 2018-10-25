@@ -97,6 +97,8 @@ ARG indy_build_flags=
 ARG indy_sdk_url=https://codeload.github.com/bcgov/indy-sdk/tar.gz/574ca3a881d188c3fd7400d27acbe5edc4c7f666
 ARG indy_crypto_url=https://codeload.github.com/hyperledger/indy-crypto/tar.gz/96c79b36c5056eade5a8e3bae418f5a733cc8d8d
 
+ENV LIBRARY_PATH="$HOME/.local/lib:$LIBRARY_PATH"
+
 # Install rust toolchain and indy-sdk
 RUN curl -o rustup https://sh.rustup.rs && \
     chmod +x rustup && \
@@ -112,12 +114,10 @@ RUN curl -o rustup https://sh.rustup.rs && \
     tar czvf python3-indy.tgz -C ../wrappers/python . && \
     pip install --no-cache-dir python3-indy.tgz && \
     cd ../cli && \
-    LIBRARY_PATH="$HOME/.local/lib:$LIBRARY_PATH" \
-        $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
+    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
     mv target/*/indy-cli "$HOME/.local/bin" && \
     cd ../samples/storage/storage-postgres && \
-    LIBRARY_PATH="$HOME/.local/lib:$LIBRARY_PATH" \
-        $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
+    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
     mv target/*/libindystrgpostgres* "$HOME/.local/lib" && \
     cd $HOME/indy-crypto && \
     tar xzf indy-crypto.tar.gz && \
@@ -218,7 +218,15 @@ ENV LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
 
 USER $user
 
-# Create wallet directory
-RUN mkdir -p "$HOME/.indy_client/wallet"
+# Create standard directories to allow volume mounting and set permissions
+# Note: PIP_NO_CACHE_DIR environment variable should be cleared to allow caching
+RUN mkdir -p \
+        $HOME/.cache/pip/http \
+        $HOME/.indy-cli/networks \
+        $HOME/.indy_client/wallet \
+        $HOME/ledger/sandbox/data \
+        $HOME/log \
+    && chmod -R ug+rw \
+        $HOME/.cache $HOME/.indy-cli $HOME/.indy_client $HOME/ledger $HOME/log
 
 CMD ["bash"]
