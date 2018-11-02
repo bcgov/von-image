@@ -28,7 +28,9 @@ fi
 
 ### Run tests for didauth ###
 
+didauth_ver=$(pip freeze | grep didauth)
+didauth_ver=${didauth_ver#"didauth=="}
 git clone https://github.com/PSPC-SPAC-buyandsell/didauth.git
 cd didauth
-git checkout v1.2
+git checkout v${didauth_ver}
 pytest
