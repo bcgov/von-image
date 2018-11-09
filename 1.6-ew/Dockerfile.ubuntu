@@ -108,7 +108,10 @@ RUN curl -o rustup https://sh.rustup.rs && \
     curl -o indy-crypto/indy-crypto.tar.gz "${indy_crypto_url}" && \
     cd indy-sdk && \
     tar xzf indy-sdk.tar.gz && \
-    cd */libindy && \
+    cd */libindy-common && \
+    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
+    mv target/*/libindy_common.so "$HOME/.local/lib" && \
+    cd ../libindy && \
     $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
     mv target/*/libindy.so "$HOME/.local/lib" && \
     tar czvf python3-indy.tgz -C ../wrappers/python . && \
@@ -118,7 +121,7 @@ RUN curl -o rustup https://sh.rustup.rs && \
     mv target/*/indy-cli "$HOME/.local/bin" && \
     cd ../samples/storage/storage-postgres && \
     $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
-    mv target/*/libindystrgpostgres* "$HOME/.local/lib" && \
+    mv target/*/libindystrgpostgres.so "$HOME/.local/lib" && \
     cd $HOME/indy-crypto && \
     tar xzf indy-crypto.tar.gz && \
     cd */libindy-crypto && \
