@@ -7,6 +7,6 @@ rlp~=0.6.0
 indy-anoncreds-dev==1.0.46
 indy-node-dev==1.6.636
 indy-plenum-dev==1.6.566
-orderedset==2.0.1
+von-anchor==1.6.36
 didauth==1.2.3
-vonx==1.4.3
+vonx==1.4.4
