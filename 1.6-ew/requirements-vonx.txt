@@ -1,0 +1,2 @@
+#vonx==1.4.4
+git+git://github.com/ianco/von-x.git#egg=vonx
