@@ -5,6 +5,7 @@ import os.path
 import re
 import subprocess
 import sys
+import random
 
 VERSIONS = {
     "dev-441": {
@@ -77,6 +78,7 @@ parser.add_argument('--python', help='use a specific python version')
 parser.add_argument('--push', action='store_true', help='push the resulting image')
 parser.add_argument('-q', '--quiet', action='store_true', help='suppress output from docker build')
 parser.add_argument('--release', dest='debug', action='store_false', help='produce a release build of libindy')
+parser.add_argument('--vonx', action='store_true', help='force re-install of von-x from library in requirements-vonx.txt')
 parser.add_argument('--s2i', action='store_true', help='build the s2i image for this version')
 parser.add_argument('--squash', action='store_true', help='produce a smaller image')
 parser.add_argument('--test', action='store_true', help='perform tests on docker image')
@@ -142,6 +144,9 @@ if args.no_cache:
 if args.squash:
     cmd_args.append('--squash')
 cmd_args.extend(['-t', tag])
+if args.vonx:
+    cmd_args.extend(['--build-arg', 'CACHEBUST=' + str(random.randint(100000,999999))])
+    cmd_args.extend(['--build-arg', 'VONX_FORCE="True"'])
 cmd_args.append(target)
 cmd = ['docker', 'build'] + cmd_args
 if args.dry_run:

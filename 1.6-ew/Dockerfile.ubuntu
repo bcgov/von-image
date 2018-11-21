@@ -221,6 +221,14 @@ ENV LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
 
 USER $user
 
+# Re-Install von-x library
+ARG CACHEBUST=1
+ADD requirements-vonx.txt .
+RUN if [ "$VONX_FORCE" = "True" ]; then \
+        pip uninstall -y -r requirements-vonx.txt && \
+        pip install --no-cache-dir --force-reinstall -r requirements-vonx.txt; \
+fi
+
 # Create standard directories to allow volume mounting and set permissions
 # Note: PIP_NO_CACHE_DIR environment variable should be cleared to allow caching
 RUN mkdir -p \
