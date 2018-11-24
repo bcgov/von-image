@@ -145,8 +145,8 @@ if args.squash:
     cmd_args.append('--squash')
 cmd_args.extend(['-t', tag])
 if args.vonx:
-    cmd_args.extend(['--build-arg', 'CACHEBUST=' + str(random.randint(100000,999999))])
-    cmd_args.extend(['--build-arg', 'VONX_FORCE="True"'])
+    cmd_args.extend(['--build-arg', 'CACHEBUST=' + str(random.randint(100000,999999)) + ''])
+    cmd_args.extend(['--build-arg', 'VONX_FORCE=True'])
 cmd_args.append(target)
 cmd = ['docker', 'build'] + cmd_args
 if args.dry_run:
