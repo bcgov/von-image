@@ -95,7 +95,7 @@ RUN git clone https://github.com/pyenv/pyenv.git "$PYENV_ROOT" && \
 ARG indy_build_flags=
 
 ARG indy_sdk_url=https://codeload.github.com/bcgov/indy-sdk/tar.gz/574ca3a881d188c3fd7400d27acbe5edc4c7f666
-ARG indy_crypto_url=https://codeload.github.com/hyperledger/indy-crypto/tar.gz/96c79b36c5056eade5a8e3bae418f5a733cc8d8d
+ARG indy_crypto_url=https://codeload.github.com/hyperledger/indy-crypto/tar.gz/65ed6347a9a2a9c0c20b833d8fc6c1eb83da7f1f
 
 ENV LIBRARY_PATH="$HOME/.local/lib:$LIBRARY_PATH"
 
