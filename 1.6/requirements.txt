@@ -9,4 +9,4 @@ indy-node-dev==1.6.636
 indy-plenum-dev==1.6.566
 von-anchor==1.6.37
 didauth==1.2.3
-vonx==1.4.4
+vonx==1.4.5

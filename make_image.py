@@ -43,8 +43,8 @@ VERSIONS = {
         "args": {
             # 1.6.7
             "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/5a37407baaf756b3c4f5cac802717dc4a2bd1660",
-            # 0.4.5
-            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/65ed6347a9a2a9c0c20b833d8fc6c1eb83da7f1f",
+            # 0.5.0
+            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/c323bd0046e4e7da936ad1682a401c557c74345b",
         }
     },
     "1.6-ew": {
@@ -52,8 +52,8 @@ VERSIONS = {
         "args": {
             # bcgov postgres_plugin branch
             "indy_sdk_url": "https://codeload.github.com/bcgov/indy-sdk/tar.gz/88424a10f53a7e47c49143b9866a0d531c1d9420",
-            # 0.4.5
-            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/65ed6347a9a2a9c0c20b833d8fc6c1eb83da7f1f",
+            # 0.5.0
+            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/c323bd0046e4e7da936ad1682a401c557c74345b",
         }
     }
 }
