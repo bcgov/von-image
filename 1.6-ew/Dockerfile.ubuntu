@@ -126,7 +126,7 @@ RUN curl -o rustup https://sh.rustup.rs && \
 
 # install postgres plug-in
 ARG CACHEBUSTPX="1"
-RUN cd $HOME/indy-sdk/indy-sdk*/samples/storage/storage-postgres && \
+RUN cd $HOME/indy-sdk/indy-sdk*/experimental/plugins/postgres_storage && \
     $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
     mv target/*/libindystrgpostgres.so "$HOME/.local/lib" 
 
