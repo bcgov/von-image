@@ -51,7 +51,7 @@ VERSIONS = {
         "version": "1.6-ew-14",
         "args": {
             # bcgov postgres_plugin branch
-            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/4359fe6886fc4c6ff95c8bad747cc7d4f0c1f865",
+            "indy_sdk_url": "https://codeload.github.com/bcgov/indy-sdk/tar.gz/c4a0249cf9d06dbc1c3c1533e8bf1e0c5946dbb4",
             # 0.5.0
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/c323bd0046e4e7da936ad1682a401c557c74345b",
         }
