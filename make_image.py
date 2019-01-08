@@ -39,7 +39,7 @@ VERSIONS = {
         }
     },
     "1.6": {
-        "version": "1.6-13",
+        "version": "1.6-14",
         "args": {
             # 1.6.7
             "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/5a37407baaf756b3c4f5cac802717dc4a2bd1660",
@@ -48,10 +48,10 @@ VERSIONS = {
         }
     },
     "1.6-ew": {
-        "version": "1.6-ew-13",
+        "version": "1.6-ew-14",
         "args": {
             # bcgov postgres_plugin branch
-            "indy_sdk_url": "https://codeload.github.com/bcgov/indy-sdk/tar.gz/88424a10f53a7e47c49143b9866a0d531c1d9420",
+            "indy_sdk_url": "https://codeload.github.com/bcgov/indy-sdk/tar.gz/c4a0249cf9d06dbc1c3c1533e8bf1e0c5946dbb4",
             # 0.5.0
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/c323bd0046e4e7da936ad1682a401c557c74345b",
         }
@@ -78,6 +78,7 @@ parser.add_argument('--python', help='use a specific python version')
 parser.add_argument('--push', action='store_true', help='push the resulting image')
 parser.add_argument('-q', '--quiet', action='store_true', help='suppress output from docker build')
 parser.add_argument('--release', dest='debug', action='store_false', help='produce a release build of libindy')
+parser.add_argument('--postgres', action='store_true', help='force re-install of postgres plug-in from github')
 parser.add_argument('--vonx', action='store_true', help='force re-install of von-x from library in requirements-vonx.txt')
 parser.add_argument('--s2i', action='store_true', help='build the s2i image for this version')
 parser.add_argument('--squash', action='store_true', help='produce a smaller image')
@@ -144,8 +145,10 @@ if args.no_cache:
 if args.squash:
     cmd_args.append('--squash')
 cmd_args.extend(['-t', tag])
+if args.postgres:
+    cmd_args.extend(['--build-arg', 'CACHEBUSTPX=' + str(random.randint(100000,999999)) + ''])
 if args.vonx:
-    cmd_args.extend(['--build-arg', 'CACHEBUST=' + str(random.randint(100000,999999)) + ''])
+    cmd_args.extend(['--build-arg', 'CACHEBUSTVX=' + str(random.randint(100000,999999)) + ''])
     cmd_args.extend(['--build-arg', 'VONX_FORCE=True'])
 cmd_args.append(target)
 cmd = ['docker', 'build'] + cmd_args
