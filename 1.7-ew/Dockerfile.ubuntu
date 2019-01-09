@@ -99,7 +99,7 @@ ARG indy_crypto_url=https://codeload.github.com/hyperledger/indy-crypto/tar.gz/6
 
 ENV LIBRARY_PATH="$HOME/.local/lib:$LIBRARY_PATH"
 
-# Install rust toolchain and indy-sdk
+# Install rust toolchain, indy-sdk, and postgres plugin
 RUN curl -o rustup https://sh.rustup.rs && \
     chmod +x rustup && \
     ./rustup -y && \
@@ -108,10 +108,7 @@ RUN curl -o rustup https://sh.rustup.rs && \
     curl -o indy-crypto/indy-crypto.tar.gz "${indy_crypto_url}" && \
     cd indy-sdk && \
     tar xzf indy-sdk.tar.gz && \
-    cd */libindy-common && \
-    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
-    mv target/*/libindy_common.so "$HOME/.local/lib" && \
-    cd ../libindy && \
+    cd */libindy && \
     $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
     mv target/*/libindy.so "$HOME/.local/lib" && \
     tar czvf python3-indy.tgz -C ../wrappers/python . && \
@@ -119,9 +116,6 @@ RUN curl -o rustup https://sh.rustup.rs && \
     cd ../cli && \
     $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
     mv target/*/indy-cli "$HOME/.local/bin" && \
-    cd ../samples/storage/storage-postgres && \
-    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
-    mv target/*/libindystrgpostgres.so "$HOME/.local/lib" && \
     cd $HOME/indy-crypto && \
     tar xzf indy-crypto.tar.gz && \
     cd */libindy-crypto && \
@@ -129,6 +123,9 @@ RUN curl -o rustup https://sh.rustup.rs && \
     mv target/*/libindy_crypto.so "$HOME/.local/lib" && \
     tar czvf indy-crypto.tgz -C ../wrappers/python . && \
     pip install --no-cache-dir indy-crypto.tgz && \
+    cd $HOME/indy-sdk/indy-sdk*/experimental/plugins/postgres_storage && \
+    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
+    mv target/*/libindystrgpostgres.so "$HOME/.local/lib" && \
     cd $HOME && \
     rm -rf .cargo .multirust .profile .rustup rustup indy-sdk indy-crypto
 
@@ -222,7 +219,7 @@ ENV LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
 USER $user
 
 # Re-Install von-x library
-ARG CACHEBUST="1"
+ARG CACHEBUSTVX="1"
 ARG VONX_FORCE=False
 ADD requirements-vonx.txt .
 RUN if [ "${VONX_FORCE}" = "True" ]; then \

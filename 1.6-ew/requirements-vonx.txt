@@ -1,4 +1,2 @@
-#vonx==1.4.6
-#von-anchor==1.7.1
-#git+git://github.com/ianco/von_anchor.git#egg=von-anchor
+#vonx==1.4.4
 git+git://github.com/ianco/von-x.git#egg=vonx

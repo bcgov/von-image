@@ -48,7 +48,16 @@ VERSIONS = {
         }
     },
     "1.6-ew": {
-        "version": "1.6-ew-14",
+        "version": "1.6-ew-13",
+        "args": {
+            # bcgov postgres_plugin branch
+            "indy_sdk_url": "https://codeload.github.com/bcgov/indy-sdk/tar.gz/c4a0249cf9d06dbc1c3c1533e8bf1e0c5946dbb4",
+            # 0.5.0
+            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/c323bd0046e4e7da936ad1682a401c557c74345b",
+        }
+    },
+    "1.7-ew": {
+        "version": "1.7-ew-0",
         "args": {
             # bcgov postgres_plugin branch
             "indy_sdk_url": "https://codeload.github.com/bcgov/indy-sdk/tar.gz/c4a0249cf9d06dbc1c3c1533e8bf1e0c5946dbb4",
