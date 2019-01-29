@@ -64,6 +64,15 @@ VERSIONS = {
             # 0.5.0
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/c323bd0046e4e7da936ad1682a401c557c74345b",
         }
+    },
+    "1.8": {
+        "version": "1.8-0",
+        "args": {
+            # 1.8.0
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/068f6e50bbeab91ffd7bf5c873ea56b72e5cc2f3",
+            # 0.5.0
+            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/c323bd0046e4e7da936ad1682a401c557c74345b",
+        }
     }
 }
 
@@ -96,7 +105,7 @@ parser.add_argument('version', choices=VERSIONS.keys(), help='the predefined rel
 
 args = parser.parse_args()
 ver = VERSIONS[args.version]
-py_ver = args.python or ver.get('python_version', PY_35_VERSION)
+py_ver = args.python or ver.get('python_version', PY_36_VERSION)
 
 target = ver.get('path', args.version)
 dockerfile = target + '/Dockerfile.ubuntu'
