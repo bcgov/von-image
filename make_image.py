@@ -77,8 +77,9 @@ VERSIONS = {
 }
 
 DEFAULT_NAME = 'bcgovimages/von-image'
-PY_35_VERSION = '3.5.5'
-PY_36_VERSION = '3.6.7'
+PY_35_VERSION = '3.5.6'
+PY_36_VERSION = '3.6.8'
+PY_37_VERSION = '3.7.2'
 
 
 parser = argparse.ArgumentParser(description='Generate a von-image Docker image')
@@ -90,8 +91,9 @@ parser.add_argument('--debug', action='store_true', help='add docker build argum
 parser.add_argument('--dry-run', action='store_true', help='print docker command line instead of executing')
 parser.add_argument('--no-cache', action='store_true', help='ignore docker image cache')
 parser.add_argument('-o', '--output', help='output an updated Dockerfile with the build arguments replaced')
-parser.add_argument('--py35', dest='python', action='store_const', const=PY_35_VERSION, help='use the default python 3.5 version')
-parser.add_argument('--py36', dest='python', action='store_const', const=PY_36_VERSION, help='use the default python 3.6 version')
+parser.add_argument('--py35', dest='python', action='store_const', const=PY_35_VERSION, help='build with the default python 3.5 version')
+parser.add_argument('--py36', dest='python', action='store_const', const=PY_36_VERSION, help='build with the default python 3.6 version')
+parser.add_argument('--py37', dest='python', action='store_const', const=PY_37_VERSION, help='build with the default python 3.7 version')
 parser.add_argument('--python', help='use a specific python version')
 parser.add_argument('--push', action='store_true', help='push the resulting image')
 parser.add_argument('-q', '--quiet', action='store_true', help='suppress output from docker build')
