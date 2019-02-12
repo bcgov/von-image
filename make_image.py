@@ -69,7 +69,7 @@ VERSIONS = {
         "version": "1.8-0",
         "args": {
             # 1.8.0
-            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/068f6e50bbeab91ffd7bf5c873ea56b72e5cc2f3",
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/944e794fe17360d7854325a2c3f346402c14b6ab",
             # 0.5.0
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/c323bd0046e4e7da936ad1682a401c557c74345b",
         }
@@ -80,6 +80,7 @@ DEFAULT_NAME = 'bcgovimages/von-image'
 PY_35_VERSION = '3.5.6'
 PY_36_VERSION = '3.6.8'
 PY_37_VERSION = '3.7.2'
+PY_DEFAULT_VERSION = PY_36_VERSION
 
 
 parser = argparse.ArgumentParser(description='Generate a von-image Docker image')
@@ -107,7 +108,7 @@ parser.add_argument('version', choices=VERSIONS.keys(), help='the predefined rel
 
 args = parser.parse_args()
 ver = VERSIONS[args.version]
-py_ver = args.python or ver.get('python_version', PY_36_VERSION)
+py_ver = args.python or ver.get('python_version', PY_DEFAULT_VERSION)
 
 target = ver.get('path', args.version)
 dockerfile = target + '/Dockerfile.ubuntu'
