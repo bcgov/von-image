@@ -12,7 +12,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-if ! python test/check_txn.py .indy-cli/networks/sandbox/pool_transactions_genesis; then
+if ! python test/check_txn.py ledger/sandbox/pool_transactions_genesis; then
     echo 'Genesis transaction file failed validation'
     exit 1
 fi
