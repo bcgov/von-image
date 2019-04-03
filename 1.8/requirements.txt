@@ -5,5 +5,5 @@ base58~=1.0.0
 cchardet~=2.1.0
 rlp~=0.6.0
 indy-anoncreds-dev==1.0.46
-indy-node==1.6.862
-indy-plenum-dev==1.6.726
+indy-node==1.6.876
+#indy-plenum-dev==1.6.726
