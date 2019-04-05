@@ -123,6 +123,9 @@ RUN curl -o rustup https://sh.rustup.rs && \
     mv target/*/libindy_crypto.so "$HOME/.local/lib" && \
     tar czvf indy-crypto.tgz -C ../wrappers/python . && \
     pip install --no-cache-dir indy-crypto.tgz && \
+    cd $HOME/indy-sdk/indy-sdk*/experimental/plugins/postgres_storage && \
+    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
+    mv target/*/libindystrgpostgres.so "$HOME/.local/lib" && \
     cd $HOME && \
     rm -rf .cargo .multirust .profile .rustup rustup indy-sdk indy-crypto
 

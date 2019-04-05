@@ -88,7 +88,7 @@ parser.add_argument('-n', '--name', default=DEFAULT_NAME, help='the base name fo
 parser.add_argument('-t', '--tag', help='a custom tag for the docker image')
 parser.add_argument('-f', '--file', help='use a custom Dockerfile')
 parser.add_argument('--build-arg', metavar='ARG=VAL', action='append', help='add docker build arguments')
-parser.add_argument('--debug', action='store_true', help='add docker build arguments')
+parser.add_argument('--debug', action='store_true', help='produce a debug build of libindy')
 parser.add_argument('--dry-run', action='store_true', help='print docker command line instead of executing')
 parser.add_argument('--no-cache', action='store_true', help='ignore docker image cache')
 parser.add_argument('-o', '--output', help='output an updated Dockerfile with the build arguments replaced')
