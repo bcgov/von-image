@@ -42,3 +42,19 @@ The `-ew-` images include the postgres-based Enterprise Wallet extensions to ind
 | 1.6-ew          | 1.6.5 with postgres plugin | 1.6.22      | 1.3.3       | 1.2.1       | dev-1.4.463     |
 
 Source Dockerfiles are located on GitHub at [PSPC-SPAC-buyandsell/von-image](https://github.com/PSPC-SPAC-buyandsell/von-image).
+
+# Rocket.Chat Notifications from you Docker Hub repository:
+
+Refer to [Incoming WebHook Scripting](https://rocket.chat/docs/administrator-guides/integrations/) for information on how to setup an incoming WebHook in Rocket.Chat.
+
+Use [rocket.chat.integration.js](./scripts/rocket.chat.integration.js) for the **Script** associated with the WebHook.
+
+On the WebHook tab of your Docker Hub repository, add a new WebHook and use the generated **WebHook URL** from the Rocket.Chat integration.
+
+The payload of the Docker WebHook is not well documented, a recent (2019.04.08) sample can be found here; [DockerHubWebhookPayloadExample.json](./scripts/DockerHubWebhookPayloadExample.json).
+
+To get a more up to date sample you can use [rocket.chat.capturepayload.js](./scripts/rocket.chat.capturepayload.js) as the script for the Rocket.Chat integration.  This will print out the json blob received from Docker Hub by Rocket.Chat.
+
+
+
+
