@@ -66,12 +66,12 @@ VERSIONS = {
         }
     },
     "1.8": {
-        "version": "1.8-2",
+        "version": "1.8-3",
         "args": {
             # 1.8.0
             "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/1a5676fbe9a06648efc044e6df23579cc3b2ffd3",
-            # 0.5.0
-            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/c323bd0046e4e7da936ad1682a401c557c74345b",
+            # 0.5.1
+            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/059e99ac526ad27eb1621c079bba6ebd36f16204",
         }
     }
 }
@@ -99,6 +99,7 @@ parser.add_argument('--python', help='use a specific python version')
 parser.add_argument('--push', action='store_true', help='push the resulting image')
 parser.add_argument('-q', '--quiet', action='store_true', help='suppress output from docker build')
 parser.add_argument('--release', dest='debug', action='store_false', help='produce a release build of libindy')
+parser.add_argument('--platform', help='build for a specific platform')
 parser.add_argument('--postgres', action='store_true', help='force re-install of postgres plug-in from github')
 parser.add_argument('--vonx', action='store_true', help='force re-install of von-x from library in requirements-vonx.txt')
 parser.add_argument('--s2i', action='store_true', help='build the s2i image for this version')
@@ -166,13 +167,17 @@ if args.no_cache:
 if args.squash:
     cmd_args.append('--squash')
 cmd_args.extend(['-t', tag])
+if args.platform:
+    cmd_args.extend(['--platform', args.platform])
 if args.postgres:
     cmd_args.extend(['--build-arg', 'CACHEBUSTPX=' + str(random.randint(100000,999999)) + ''])
 if args.vonx:
     cmd_args.extend(['--build-arg', 'CACHEBUSTVX=' + str(random.randint(100000,999999)) + ''])
     cmd_args.extend(['--build-arg', 'VONX_FORCE=True'])
+
 cmd_args.append(target)
 cmd = ['docker', 'build'] + cmd_args
+
 if args.dry_run:
     print(' '.join(cmd))
 else:
