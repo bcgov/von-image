@@ -8,54 +8,6 @@ import sys
 import random
 
 VERSIONS = {
-    "dev-441": {
-        "version": "indy1.3.1-dev-441-ew",
-        "args": {
-            "indy_sdk_repo": "https://github.com/bcgov/indy-sdk.git",
-            "indy_sdk_rev": "574ca3a881d188c3fd7400d27acbe5edc4c7f666",
-            "indy_crypto_repo": "https://github.com/hyperledger/indy-crypto.git",
-            "indy_crypto_rev": "96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
-        }
-    },
-    "1.0": {
-        "version": "1.0rc3",
-        "args": {
-            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/50ede4563a6a303b09d78ca97d3238e6c10333f6",
-            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
-        }
-    },
-    "1.0std": {
-        "path": "1.0",
-        "args": {
-            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/e0ef8889e9f3b9abd706628fe259f56501d492d9",
-            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/96c79b36c5056eade5a8e3bae418f5a733cc8d8d",
-        }
-    },
-    "1.5": {
-        "version": "1.5-0",
-        "args": {
-            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/16c637cbe855c46bf1d3a869e9ebcfc99bb9aabf",
-            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/9586d6a24f53f2aa0621249f2266d0f129253c48",
-        }
-    },
-    "1.6": {
-        "version": "1.6-14",
-        "args": {
-            # 1.6.7
-            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/5a37407baaf756b3c4f5cac802717dc4a2bd1660",
-            # 0.5.0
-            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/c323bd0046e4e7da936ad1682a401c557c74345b",
-        }
-    },
-    "1.6-ew": {
-        "version": "1.6-ew-13",
-        "args": {
-            # bcgov postgres_plugin branch
-            "indy_sdk_url": "https://codeload.github.com/bcgov/indy-sdk/tar.gz/c4a0249cf9d06dbc1c3c1533e8bf1e0c5946dbb4",
-            # 0.5.0
-            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/c323bd0046e4e7da936ad1682a401c557c74345b",
-        }
-    },
     "1.7-ew": {
         "version": "1.7-ew-0",
         "args": {
