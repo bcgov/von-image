@@ -1,4 +1,4 @@
-# Docker images for Verified Organizations Network components
+## Docker images for Verified Organizations Network components
 
 # Included:
 - [Hyperledger Indy-SDK](https://github.com/hyperledger/indy-sdk), along with `indy-node`, `indy-crypto`, `indy-cli`, `indy-plenum`, and `indy-anoncreds`
@@ -11,8 +11,11 @@
 The `py35-*` images are intended for running `indy-node` containers such as `von-network`.
 For other usage `py36-*` is recommended.
 
+# OpenShift Compatibility:
+Starting with `1.8-4` all images are compatible with OpenShift.  Prior to `1.8-4` only the `s2i` images were compatible with OpenShift.
+
 # `s2i` images:
-These images include configuration for building and deploying on OpenShift using source-to-image.
+These images include configuration for building and deploying on OpenShift using the source-to-image builds.
 
 # Enterprise Wallet images:
 The `-ew-` images include the postgres-based Enterprise Wallet extensions to indy-sdk.
@@ -21,6 +24,11 @@ The `-ew-` images include the postgres-based Enterprise Wallet extensions to ind
 
 | Image tag       | indy-sdk                   | von_anchor  | von-x       | didauth     | indy-node       |
 |-----------------|----------------------------|-------------|-------------|-------------|-----------------|
+| 1.8-4       | 1.8.3          | --      | --       | --       | 1.7.0.dev902     |
+| 1.8-3       | 1.8.2          | --      | --       | --       | 1.7.0.dev902     |
+| 1.8-2       | 1.8.2          | --      | --       | --       | dev-1.6.876     |
+| 1.8-1       | 1.8.1-dev-1033 | --      | --       | --       | dev-1.6.862     |
+| 1.8-0       | 1.8.0 | --      | --       | --       | dev-1.6.636     |
 | 1.7-ew-0       | 1.7.0 with postgres plugin | 1.7.1      | 1.4.7       | 1.2.3       | dev-1.6.636     |
 | 1.6-9           | 1.6.7                      | 1.6.33      | 1.4.2       | 1.2.2       | dev-1.6.636     |
 | 1.6-8           | 1.6.7                      | 1.6.31      | 1.4.0       | 1.2.2       | dev-1.6.636     |
