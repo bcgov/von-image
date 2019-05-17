@@ -1,4 +1,4 @@
-FROM ubuntu:16.04 as builder
+FROM ubuntu:18.04 as builder
 
 ARG user=indy
 ENV HOME="/home/$user"
@@ -18,14 +18,11 @@ RUN apt-get update -y && \
         git \
         libbz2-dev \
         libffi-dev \
-        libgflags-dev \
         libgmp-dev \
-        liblz4-dev \
         liblzma-dev \
         libncurses5-dev \
         libncursesw5-dev \
         libreadline-gplv2-dev \
-        libsnappy-dev \
         libsqlite3-dev \
         libssl-dev \
         libtool \
@@ -46,33 +43,6 @@ RUN curl -o libsodium-${nacl_lib_ver}.tar.gz \
     cd .. && \
     cp -a /usr/local/lib/libsodium.so* "$HOME/.local/lib" && \
     rm -rf libsodium-${nacl_lib_ver}*
-
-ARG pbc_lib_ver=0.5.14
-
-# Build and install pbc library
-RUN curl -o pbc-${pbc_lib_ver}.tar.gz \
-        "https://crypto.stanford.edu/pbc/files/pbc-${pbc_lib_ver}.tar.gz" && \
-    tar xzvf pbc-${pbc_lib_ver}.tar.gz && \
-    cd pbc-${pbc_lib_ver} && \
-    ./configure && \
-    make install && \
-    cd .. && \
-    cp /usr/local/lib/libpbc*.so "$HOME/.local/lib" && \
-    rm -rf pbc-${pbc_lib_ver}*
-
-ARG rocksdb_lib_ver=5.13.fb
-
-# Build and install rocksdb library
-RUN mkdir rocksdb && \
-    curl -o rocksdb/rocksdb.tar.gz \
-        "https://codeload.github.com/facebook/rocksdb/tar.gz/${rocksdb_lib_ver}" && \
-    cd rocksdb && \
-    tar xzf rocksdb.tar.gz && \
-    cd ./* && \
-    CXXFLAGS="-flto -Os -s" PORTABLE=1 make install-shared && \
-    cd $HOME && \
-    cp -a /usr/local/lib/librocksdb.so* "$HOME/.local/lib" && \
-    rm -rf rocksdb
 
 # 3.5.3+ required
 ARG python_version=3.5.5
@@ -135,7 +105,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 
 ## Start fresh (new image) ##
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 
 ARG uid=1001
@@ -154,10 +124,10 @@ ENV HOME="/home/$user" \
     PYTHONIOENCODING=UTF-8 \
     RUST_LOG=warning \
     SHELL=/bin/bash \
-    SUMMARY="von-image including Python $python_version, indy-sdk, and indy-node" \
+    SUMMARY="von-image including Python $python_version and indy-sdk" \
     DESCRIPTION="von-image provides a consistent base image for running VON python web \
-components. Based on Ubuntu xenial, this image includes Python $python_version \
-as well as indy-sdk, indy-node, and supporting Python libraries such as von_anchor and didauth."
+components. Based on Ubuntu bionic, this image includes Python $python_version, \
+ indy-sdk, and supporting Python libraries."
 
 LABEL summary="$SUMMARY" \
       description="$DESCRIPTION" \
@@ -179,14 +149,11 @@ RUN apt-get update -y && \
         curl \
         git \
         libffi6 \
-        libgflags2v5 \
         libgmp10 \
-        liblz4-1 \
         liblzma5 \
         libncurses5 \
         libncursesw5 \
         libreadline5 \
-        libsnappy1v5 \
         libzmq5 \
         net-tools \
         openssl \

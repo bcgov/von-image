@@ -18,7 +18,7 @@ VERSIONS = {
         }
     },
     "1.8": {
-        "version": "1.8-4",
+        "version": "1.8-5",
         "args": {
             # 1.8.3
             "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/26daafc28da10a8347c52fb2d13817301903b75b",
