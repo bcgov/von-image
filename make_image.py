@@ -66,10 +66,10 @@ VERSIONS = {
         }
     },
     "1.8": {
-        "version": "1.8-3",
+        "version": "1.8-4",
         "args": {
-            # 1.8.0
-            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/1a5676fbe9a06648efc044e6df23579cc3b2ffd3",
+            # 1.8.3
+            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/26daafc28da10a8347c52fb2d13817301903b75b",
             # 0.5.1
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/059e99ac526ad27eb1621c079bba6ebd36f16204",
         }
