@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import os.path
 import re
 import subprocess
 import sys
