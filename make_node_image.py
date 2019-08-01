@@ -18,12 +18,12 @@ VERSIONS = {
     },
     "1.9": {
         "path": "node-1.9",
-        "version": "node-1.9-0",
+        "version": "node-1.9-1",
         "args": {
-            # 1.8.3
-            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/26daafc28da10a8347c52fb2d13817301903b75b",
-            # 0.5.1
-            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/059e99ac526ad27eb1621c079bba6ebd36f16204",
+            # 1.10.1
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/0718ac0f2979d5c2ae649663c5e78e2f65f35100",
+            # 0.1.1
+            "ursa_url": "https://codeload.github.com/hyperledger/ursa/tar.gz/d764981144bce9f5b0f1c085a8ebad222f429690",
         },
     },
 }
