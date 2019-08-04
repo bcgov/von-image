@@ -38,17 +38,23 @@ VERSIONS = {
         "version": "1.10-0",
         "args": {
             # 1.10.1
-            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/0718ac0f2979d5c2ae649663c5e78e2f65f35100",
-            # 0.1.1
-            "ursa_url": "https://codeload.github.com/hyperledger/ursa/tar.gz/d764981144bce9f5b0f1c085a8ebad222f429690",
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/0718ac0f2979d5c2ae649663c5e78e2f65f35100"
+        },
+    },
+    "1.11": {
+        "path": "1.10",
+        "version": "1.11-0",
+        "args": {
+            # 1.11.0
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/a583838aad867ad3dbb142b86bd76cadfe294682"
         },
     },
 }
 
 DEFAULT_NAME = "bcgovimages/von-image"
-PY_35_VERSION = "3.5.6"
-PY_36_VERSION = "3.6.8"
-PY_37_VERSION = "3.7.2"
+PY_35_VERSION = "3.5.7"
+PY_36_VERSION = "3.6.9"
+PY_37_VERSION = "3.7.4"
 PY_DEFAULT_VERSION = PY_36_VERSION
 
 
