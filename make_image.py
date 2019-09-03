@@ -55,7 +55,7 @@ VERSIONS = {
         "args": {
             # 1.11.1
             "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/453edc895f2278f41e04820911d5a946199a44e4",
-            "rust_version": "1.37.0"
+            "rust_version": "1.37.0",
         },
     },
 }
@@ -291,4 +291,3 @@ if not args.dry_run:
         if proc.returncode:
             print("push failed")
             sys.exit(1)
-

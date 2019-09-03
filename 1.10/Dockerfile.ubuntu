@@ -71,27 +71,43 @@ ARG rust_version=1.34.0
 
 ENV LIBRARY_PATH="$HOME/.local/lib:$LIBRARY_PATH"
 
-# Install rust toolchain, indy-sdk, and postgres plugin
+# Install rust toolchain
 RUN curl -o rustup https://sh.rustup.rs && \
     chmod +x rustup && \
-    ./rustup --default-toolchain "${rust_version}" -y && \
-    mkdir indy-sdk && \
-    curl -o indy-sdk/indy-sdk.tar.gz "${indy_sdk_url}" && \
-    cd $HOME/indy-sdk && \
-    tar xzf indy-sdk.tar.gz && \
-    cd */libindy && \
-    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
+    ./rustup --default-toolchain "${rust_version}" -y
+ENV PATH="$HOME/.cargo/bin:$PATH"
+
+# Download and extract indy-sdk
+RUN mkdir indy-sdk && \
+    curl "${indy_sdk_url}" | tar -xz -C indy-sdk
+
+# Build and install indy-sdk
+WORKDIR $HOME/indy-sdk
+RUN cd indy-sdk*/libindy && \
+    cargo build ${indy_build_flags} && \
     cp target/*/libindy.so "$HOME/.local/lib" && \
-    tar czvf python3-indy.tgz -C ../wrappers/python . && \
+    cargo clean
+
+# Package and install python3-indy
+RUN tar czvf python3-indy.tgz -C indy-sdk*/wrappers/python . && \
     pip install --no-cache-dir python3-indy.tgz && \
-    cd ../cli && \
-    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
+    rm python3-indy.tgz
+
+# Build and install indy-cli
+RUN cd indy-sdk*/cli && \
+    cargo build ${indy_build_flags} && \
     cp target/*/indy-cli "$HOME/.local/bin" && \
-    cd $HOME/indy-sdk/indy-sdk*/experimental/plugins/postgres_storage && \
-    $HOME/.cargo/bin/cargo build ${indy_build_flags} && \
+    cargo clean
+
+# Build and install postgres_storage plugin
+RUN cd indy-sdk*/experimental/plugins/postgres_storage && \
+    cargo build ${indy_build_flags} && \
     cp target/*/libindystrgpostgres.so "$HOME/.local/lib" && \
-    cd $HOME && \
-    rm -rf .cargo .multirust .profile .rustup rustup indy-sdk
+    cargo clean
+
+# Clean up
+WORKDIR $HOME
+RUN rm -rf .cargo .multirust .profile .rustup rustup indy-sdk
 
 # Install indy python libraries and other dependencies
 ADD requirements.txt .
