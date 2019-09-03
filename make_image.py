@@ -49,6 +49,15 @@ VERSIONS = {
             "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/a583838aad867ad3dbb142b86bd76cadfe294682"
         },
     },
+    "1.11.1": {
+        "path": "1.10",
+        "version": "1.11-1",
+        "args": {
+            # 1.11.1
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/453edc895f2278f41e04820911d5a946199a44e4",
+            "rust_version": "1.37.0"
+        },
+    },
 }
 
 DEFAULT_NAME = "bcgovimages/von-image"
