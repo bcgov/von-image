@@ -23,6 +23,7 @@ The following images include Python 3.6, the Indy SDK library and Python wrapper
 
 | Image tag         | indy-sdk version           | python version             |
 |-------------------|----------------------------|----------------------------|
+| py36-1.11-1       | 1.11.1                     | 3.6.9                      |
 | py36-1.11-0       | 1.11.0                     | 3.6.9                      |
 | py36-1.10-0       | 1.10.1                     | 3.6.8                      |
 | py36-1.9-0        | 1.9.0                      | 3.6.8                      |
@@ -33,6 +34,7 @@ These images include the Indy Node library for hosting an Indy ledger node or po
 
 | Image tag         | indy-node version          | indy-sdk version           | python version             |
 |-------------------|----------------------------|----------------------------|----------------------------|
+| node-1.9-3        | 1.9.2                      | 1.11.1                     | 3.5.7                      |
 | node-1.9-2        | 1.9.0                      | 1.11.0                     | 3.5.7                      |
 | node-1.9-1        | 1.9.0                      | 1.10.1                     | 3.5.6                      |
 | node-1.9-0        | 1.9.0                      | 1.8.3                      | 3.5.6                      |

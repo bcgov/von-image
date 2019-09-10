@@ -18,18 +18,20 @@ VERSIONS = {
     },
     "1.9": {
         "path": "node-1.9",
-        "version": "node-1.9-2",
+        "version": "node-1.9-3",
         "args": {
-            # 1.11.0
-            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/a583838aad867ad3dbb142b86bd76cadfe294682",
+            # 1.11.1
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/453edc895f2278f41e04820911d5a946199a44e4",
             # 0.1.1
             "ursa_url": "https://codeload.github.com/hyperledger/ursa/tar.gz/d764981144bce9f5b0f1c085a8ebad222f429690",
+            "rust_version": "1.37.0",
         },
     },
 }
 
 DEFAULT_NAME = "bcgovimages/von-image"
 PY_35_VERSION = "3.5.7"
+PY_36_VERSION = "3.6.9"
 PY_DEFAULT_VERSION = PY_35_VERSION
 
 
@@ -62,6 +64,13 @@ parser.add_argument(
     action="store_const",
     const=PY_35_VERSION,
     help="build with the default python 3.5 version",
+)
+parser.add_argument(
+    "--py36",
+    dest="python",
+    action="store_const",
+    const=PY_36_VERSION,
+    help="build with the default python 3.6 version",
 )
 parser.add_argument("--python", help="use a specific python version")
 parser.add_argument("--push", action="store_true", help="push the resulting image")
@@ -223,4 +232,3 @@ if not args.dry_run:
         if proc.returncode:
             print("push failed")
             sys.exit(1)
-
