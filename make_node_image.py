@@ -18,7 +18,7 @@ VERSIONS = {
     },
     "1.9": {
         "path": "node-1.9",
-        "version": "node-1.9-3",
+        "version": "node-1.9-4",
         "args": {
             # 1.11.1
             "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/453edc895f2278f41e04820911d5a946199a44e4",
