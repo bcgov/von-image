@@ -27,6 +27,17 @@ VERSIONS = {
             "rust_version": "1.37.0",
         },
     },
+    "1.12": {
+        "path": "node-1.12",
+        "version": "node-1.12-0",
+        "args": {
+            # 1.14.1 release
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/e02532a575698851196ac0d48aaf7ff4647cb0d0",
+            # 0.1.1
+            "ursa_url": "https://codeload.github.com/hyperledger/ursa/tar.gz/d764981144bce9f5b0f1c085a8ebad222f429690",
+            "rust_version": "1.37.0",
+        },
+    },
 }
 
 DEFAULT_NAME = "bcgovimages/von-image"
