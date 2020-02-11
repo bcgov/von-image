@@ -8,10 +8,11 @@ import random
 
 VERSIONS = {
     "1.7-ew": {
-        "version": "1.7-ew-0",
+        "version": "1.7-ew-1",
         "args": {
-            # bcgov postgres_plugin branch
-            "indy_sdk_url": "https://codeload.github.com/bcgov/indy-sdk/tar.gz/c4a0249cf9d06dbc1c3c1533e8bf1e0c5946dbb4",
+            # 1.14.1 release
+            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/4825ab317d541f89142ac108e230d09ff76c9969",
+            "rust_version": "1.37.0",
             # 0.5.0
             "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/c323bd0046e4e7da936ad1682a401c557c74345b",
         },

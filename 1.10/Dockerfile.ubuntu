@@ -32,7 +32,7 @@ RUN apt-get update -y && \
         zlib1g-dev && \
     rm -rf /var/lib/apt/lists/*
 
-ARG nacl_lib_ver=1.0.16
+ARG nacl_lib_ver=1.0.18
 
 # Build and install libsodium library
 RUN curl -o libsodium-${nacl_lib_ver}.tar.gz \
