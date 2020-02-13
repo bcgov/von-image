@@ -117,8 +117,7 @@ RUN mkdir indy-sdk && \
 WORKDIR $HOME/indy-sdk
 RUN cd indy-sdk*/libindy && \
     cargo build ${indy_build_flags} && \
-    cp target/*/libindy.so "$HOME/.local/lib" && \
-    cargo clean
+    cp target/*/libindy.so "$HOME/.local/lib"
 
 # Package and install python3-indy
 RUN tar czvf python3-indy.tgz -C indy-sdk*/wrappers/python . && \
@@ -128,14 +127,7 @@ RUN tar czvf python3-indy.tgz -C indy-sdk*/wrappers/python . && \
 # Build and install indy-cli
 RUN cd indy-sdk*/cli && \
     cargo build ${indy_build_flags} && \
-    cp target/*/indy-cli "$HOME/.local/bin" && \
-    cargo clean
-
-# Build and install postgres_storage plugin
-RUN cd indy-sdk*/experimental/plugins/postgres_storage && \
-    cargo build ${indy_build_flags} && \
-    cp target/*/libindystrgpostgres.so "$HOME/.local/lib" && \
-    cargo clean
+    cp target/*/indy-cli "$HOME/.local/bin"
 
 # Download, build and install ursa
 RUN cd $HOME && \
@@ -146,9 +138,22 @@ RUN cd $HOME && \
     cp ../target/*/libursa.so "$HOME/.local/lib" && \
     cd $HOME && rm -R ursa
 
+# Download and extract indy-vdr
+RUN rustup toolchain install 1.39.0 && rustup default 1.39.0
+RUN cd $HOME && \
+    mkdir indy-vdr && \
+    curl "https://codeload.github.com/andrewwhitehead/indy-vdr/tar.gz/master" | tar -xz -C indy-vdr
+WORKDIR $HOME/indy-vdr
+RUN cd */libindy_vdr && \
+    cargo build --lib && \
+    cp ../target/*/libindy_vdr.so "$HOME/.local/lib"
+RUN tar czvf indy-vdr-python.tgz -C */wrappers/python . && \
+    pip install --no-cache-dir --ignore-requires-python indy-vdr-python.tgz && \
+    rm indy-vdr-python.tgz
+
 # Clean up
 WORKDIR $HOME
-RUN rm -rf .cargo .multirust .profile .rustup rustup indy-sdk ursa
+RUN rm -rf .cargo .multirust .profile .rustup rustup indy-sdk indy-vdr ursa
 
 # Install indy python libraries and other dependencies
 ADD requirements.txt .

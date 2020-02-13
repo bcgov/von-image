@@ -37,6 +37,7 @@ VERSIONS = {
             "ursa_url": "https://codeload.github.com/hyperledger/ursa/tar.gz/d764981144bce9f5b0f1c085a8ebad222f429690",
             "rust_version": "1.37.0",
         },
+        "python_version": "3.6.9",
     },
 }
 
