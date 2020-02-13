@@ -5,6 +5,12 @@ import re
 import subprocess
 import sys
 
+DEFAULT_NAME = "bcgovimages/von-image"
+PY_35_VERSION = "3.5.7"
+PY_36_VERSION = "3.6.9"
+PY_DEFAULT_VERSION = PY_35_VERSION
+
+
 VERSIONS = {
     "1.7": {
         "path": "node-1.7",
@@ -29,7 +35,7 @@ VERSIONS = {
     },
     "1.12": {
         "path": "node-1.12",
-        "version": "node-1.12-0",
+        "version": "node-1.12-1",
         "args": {
             # 1.14.1 release
             "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/e02532a575698851196ac0d48aaf7ff4647cb0d0",
@@ -37,14 +43,9 @@ VERSIONS = {
             "ursa_url": "https://codeload.github.com/hyperledger/ursa/tar.gz/d764981144bce9f5b0f1c085a8ebad222f429690",
             "rust_version": "1.37.0",
         },
-        "python_version": "3.6.9",
+        "python_version": PY_36_VERSION,
     },
 }
-
-DEFAULT_NAME = "bcgovimages/von-image"
-PY_35_VERSION = "3.5.7"
-PY_36_VERSION = "3.6.9"
-PY_DEFAULT_VERSION = PY_35_VERSION
 
 
 parser = argparse.ArgumentParser(description="Generate a von-image Docker image")
