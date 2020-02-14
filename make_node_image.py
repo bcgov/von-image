@@ -35,7 +35,7 @@ VERSIONS = {
     },
     "1.12": {
         "path": "node-1.12",
-        "version": "node-1.12-1",
+        "version": "node-1.12-2",
         "args": {
             # 1.14.1 release
             "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/e02532a575698851196ac0d48aaf7ff4647cb0d0",

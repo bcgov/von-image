@@ -202,6 +202,7 @@ RUN apt-get update -y && \
         ca-certificates \
         bzip2 \
         curl \
+        gettext \
         git \
         libffi6 \
         libgflags2.2 \
