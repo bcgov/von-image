@@ -77,6 +77,15 @@ VERSIONS = {
             "rust_version": "1.37.0",
         },
     },
+    "1.14.2": {
+        "path": "1.10",
+        "version": "1.14-1",
+        "args": {
+            # 1.14.2 release
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/19dee23ad1bad04012ecb77ad8ed30113a23694f",
+            "rust_version": "1.37.0",
+        },
+    },
 }
 
 DEFAULT_NAME = "bcgovimages/von-image"
