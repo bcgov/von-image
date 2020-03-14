@@ -86,6 +86,13 @@ VERSIONS = {
             "rust_version": "1.37.0",
         },
     },
+    "next-1": {
+        "path": "next",
+        "args": {
+            # 1.14.2 release
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/19dee23ad1bad04012ecb77ad8ed30113a23694f",
+        },
+    },
 }
 
 DEFAULT_NAME = "bcgovimages/von-image"
@@ -175,7 +182,10 @@ ver = VERSIONS[args.version]
 py_ver = args.python or ver.get("python_version", PY_DEFAULT_VERSION)
 
 target = ver.get("path", args.version)
-dockerfile = target + "/Dockerfile.ubuntu"
+if target.startswith("next"):
+    dockerfile = target + "/Dockerfile"
+else:
+    dockerfile = target + "/Dockerfile.ubuntu"
 if args.file:
     dockerfile = args.file
 
@@ -184,7 +194,10 @@ tag_name = args.name
 if tag:
     tag_name, tag_version = tag.split(":", 2)
 else:
-    pfx = "py" + py_ver[0:1] + py_ver[2:3] + "-"
+    if target.startswith("next"):
+        pfx = ""
+    else:
+        pfx = "py" + py_ver[0:1] + py_ver[2:3] + "-"
     tag_version = pfx + ver.get("version", args.version)
     if args.debug:
         tag_version += "-debug"
