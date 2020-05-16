@@ -220,10 +220,11 @@ RUN mkdir -p \
     $HOME/ledger/sandbox/data \
     $HOME/log
 
-# The root group needs access the directories under $HOME/.indy_client for the
-# container to function in OpenShift.
+# The root group needs access the directories under $HOME/.indy_client for the container to function in OpenShift.
+# Also ensure the permissions on the python 'site-packages' folder are set correctly.
 RUN chown -R indy:root $HOME/.indy_client \
-    && chmod -R ug+rw $HOME/log $HOME/ledger $HOME/.indy-cli $HOME/.indy_client $HOME/.cache
+    && chmod -R ug+rw $HOME/log $HOME/ledger $HOME/.indy-cli $HOME/.indy_client $HOME/.cache \
+    && chmod +rx $(python -m site --user-site)
 
 USER $user
 
