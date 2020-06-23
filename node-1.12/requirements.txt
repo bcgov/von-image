@@ -1,8 +1,8 @@
 aiodns~=2.0.0
-aiohttp~=3.5.0
-aiosqlite~=0.10.0
+aiohttp~=3.6.0
+aiosqlite~=0.13.0
 base58~=1.0.0
 cchardet~=2.1.0
 rlp~=0.6.0
-indy-node==1.12.2
-indy-crypto==0.5.1 # override plenum dependency
+indy-node==1.12.3
+git+https://github.com/hyperledger/indy-plenum.git@a5941cb9d9faea4601ba2ad4e8c5fc070d5075df#egg=indy-plenum

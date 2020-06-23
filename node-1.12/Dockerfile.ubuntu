@@ -99,7 +99,7 @@ ARG indy_build_flags=
 ARG indy_sdk_url=https://codeload.github.com/bcgov/indy-sdk/tar.gz/574ca3a881d188c3fd7400d27acbe5edc4c7f666
 ARG ursa_url=https://codeload.github.com/hyperledger/ursa/tar.gz/d764981144bce9f5b0f1c085a8ebad222f429690
 
-ARG rust_version=1.34.0
+ARG rust_version=1.40.0
 
 ENV LIBRARY_PATH="$HOME/.local/lib:$LIBRARY_PATH"
 
@@ -152,8 +152,8 @@ ADD requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Install 'indy_crypto' shim for ursa
-ADD indy_crypto ./indy_crypto
-RUN pip install -e indy_crypto
+# ADD indy_crypto ./indy_crypto
+# RUN pip install -e indy_crypto
 
 
 ## Start fresh (new image) ##
