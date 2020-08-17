@@ -78,7 +78,7 @@ WORKDIR $HOME
 RUN rm -rf indy-sdk
 
 
-ARG indy_vdr_url=https://codeload.github.com/andrewwhitehead/indy-vdr/tar.gz/master
+ARG indy_vdr_url=https://codeload.github.com/andrewwhitehead/indy-vdr/tar.gz/9f09b5e3a628a56eced26bc28e016887513c8be3
 
 # Download and extract indy-vdr
 RUN mkdir indy-vdr && \
@@ -109,10 +109,12 @@ RUN mkdir indy-credx && \
     curl "${indy_credx_url}" | tar -xz -C indy-credx
 
 # Build and install indy-credx
-RUN rustup toolchain install nightly && rustup default nightly
+RUN rustup toolchain install nightly-2020-04-01 && rustup default nightly-2020-04-01
 RUN pip install --no-cache-dir --user maturin
 WORKDIR $HOME/indy-credx
 RUN cd indy-credx*/wrappers/python && \
+    echo "nightly-2020-04-01" > rust-toolchain && \
+    echo "parking_lot = \"0.10.1\"" >> Cargo.toml && \
     maturin build --no-sdist --manylinux=1-unchecked --release && \
     pip install --user target/wheels/* && \
     cargo clean
