@@ -85,10 +85,12 @@ RUN mkdir indy-vdr && \
     curl "${indy_vdr_url}" | tar -xz -C indy-vdr
 
 # Build and install indy-vdr
+# Ensure libindy_vdr.so is included in the python package to avoid 'Library not loaded from python package' messages.
 WORKDIR $HOME/indy-vdr
 RUN cd indy-vdr* && \
     cargo build ${indy_build_flags} && \
     cp target/*/libindy_vdr.so "$HOME/.local/lib" && \
+    cp target/*/libindy_vdr.so wrappers/python/indy_vdr && \
     cp target/*/indy-vdr-proxy "$HOME/.local/bin" && \
     cargo clean
 
