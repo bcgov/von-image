@@ -77,8 +77,7 @@ RUN cd indy-sdk*/experimental/plugins/postgres_storage && \
 WORKDIR $HOME
 RUN rm -rf indy-sdk
 
-
-ARG indy_vdr_url=https://codeload.github.com/andrewwhitehead/indy-vdr/tar.gz/9f09b5e3a628a56eced26bc28e016887513c8be3
+ARG indy_vdr_url=https://codeload.github.com/hyperledger/indy-vdr/tar.gz/master
 
 # Download and extract indy-vdr
 RUN mkdir indy-vdr && \
@@ -102,7 +101,6 @@ RUN tar czvf indy_vdr.tgz -C indy-vdr*/wrappers/python . && \
 # Clean up VDR
 WORKDIR $HOME
 RUN rm -rf indy-vdr
-
 
 ARG indy_credx_url=https://codeload.github.com/andrewwhitehead/indy-credx/tar.gz/master
 
