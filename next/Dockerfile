@@ -1,4 +1,4 @@
-FROM rust:1.41-slim-buster as builder
+FROM rust:1.45-slim-buster as builder
 
 ARG user=indy
 ENV HOME="/home/$user"
@@ -77,7 +77,8 @@ RUN cd indy-sdk*/experimental/plugins/postgres_storage && \
 WORKDIR $HOME
 RUN rm -rf indy-sdk
 
-ARG indy_vdr_url=https://codeload.github.com/hyperledger/indy-vdr/tar.gz/master
+
+ARG indy_vdr_url=https://codeload.github.com/andrewwhitehead/indy-vdr/tar.gz/8b2c34fd8012a92ad1d22ff277d8b5352f4394bb
 
 # Download and extract indy-vdr
 RUN mkdir indy-vdr && \
@@ -102,26 +103,53 @@ RUN tar czvf indy_vdr.tgz -C indy-vdr*/wrappers/python . && \
 WORKDIR $HOME
 RUN rm -rf indy-vdr
 
-ARG indy_credx_url=https://codeload.github.com/andrewwhitehead/indy-credx/tar.gz/master
+
+ARG indy_shared_url=https://codeload.github.com/bcgov/indy-shared-rs/tar.gz/e407a7ddbe38fa2de779ae69f6159afbd699b2e2
 
 # Download and extract indy-credx
-RUN mkdir indy-credx && \
-    curl "${indy_credx_url}" | tar -xz -C indy-credx
+RUN mkdir indy-shared-rs && \
+    curl "${indy_shared_url}" | tar -xz -C indy-shared-rs
 
 # Build and install indy-credx
-RUN rustup toolchain install nightly-2020-04-01 && rustup default nightly-2020-04-01
-RUN pip install --no-cache-dir --user maturin
-WORKDIR $HOME/indy-credx
-RUN cd indy-credx*/wrappers/python && \
-    echo "nightly-2020-04-01" > rust-toolchain && \
-    echo "parking_lot = \"0.10.1\"" >> Cargo.toml && \
-    maturin build --no-sdist --manylinux=1-unchecked --release && \
-    pip install --user target/wheels/* && \
+WORKDIR $HOME/indy-shared-rs
+RUN cd indy-shared-rs* && \
+    cargo build -p indy-credx ${indy_build_flags} && \
+    cp target/*/libindy_credx.so "$HOME/.local/lib" && \
+    cp target/*/libindy_credx.so wrappers/python/indy_credx && \
     cargo clean
 
-# Clean up Credx
+# Package and install indy_credx python wrapper
+RUN tar czvf indy_credx.tgz -C indy-shared-rs*/wrappers/python . && \
+    pip install --no-cache-dir --user indy_credx.tgz && \
+    rm indy_credx.tgz
+
+# Clean up indy-credx
 WORKDIR $HOME
-RUN rm -rf indy-credx
+RUN rm -rf indy-shared-rs
+
+
+ARG aries_askar_url=https://codeload.github.com/andrewwhitehead/aries-askar/tar.gz/8b1bb3092d45888f848b3135af9dd37c0db92160
+
+# Download and extract aries-askar
+RUN mkdir aries-askar && \
+    curl "${aries_askar_url}" | tar -xz -C aries-askar
+
+# Build and install aries-askar
+WORKDIR $HOME/aries-askar
+RUN cd aries-askar* && \
+    cargo build ${indy_build_flags} && \
+    cp target/*/libaries_askar.so "$HOME/.local/lib" && \
+    cp target/*/libaries_askar.so wrappers/python/aries_askar && \
+    cargo clean
+
+# Package and install aries_askar python wrapper
+RUN tar czvf aries_askar.tgz -C aries-askar*/wrappers/python . && \
+    pip install --no-cache-dir --user aries_askar.tgz && \
+    rm aries_askar.tgz
+
+# Clean up aries-askar
+WORKDIR $HOME
+RUN rm -rf aries-askar
 
 
 
@@ -136,7 +164,7 @@ FROM debian:buster-slim
 
 ARG uid=1001
 ARG user=indy
-ARG python_version=3.5.5
+ARG python_version=3.7.4
 ARG tag_name=von-image
 ARG tag_version=
 
@@ -219,13 +247,15 @@ RUN mkdir -p \
     $HOME/.indy_client/wallet \
     $HOME/.indy_client/pool \
     $HOME/.indy_client/ledger-cache \
+    $HOME/.indy_client/indy-vdr \
+    $HOME/.aries_askar \
     $HOME/ledger/sandbox/data \
     $HOME/log
 
 # The root group needs access the directories under $HOME/.indy_client for the container to function in OpenShift.
 # Also ensure the permissions on the python 'site-packages' folder are set correctly.
 RUN chown -R indy:root $HOME/.indy_client \
-    && chmod -R ug+rw $HOME/log $HOME/ledger $HOME/.indy-cli $HOME/.indy_client $HOME/.cache \
+    && chmod -R ug+rw $HOME/log $HOME/ledger $HOME/.indy-cli $HOME/.indy_client $HOME/.cache $HOME/.aries_askar \
     && chmod +rx $(python -m site --user-site)
 
 USER $user

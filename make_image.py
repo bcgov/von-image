@@ -95,11 +95,11 @@ VERSIONS = {
             "rust_version": "1.40.0",
         },
     },
-    "next-1": {
+    "next-2": {
         "path": "next",
         "args": {
-            # 1.14.2 release
-            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/19dee23ad1bad04012ecb77ad8ed30113a23694f",
+            # 1.15.0 release
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/f85afd2f94959eb59522e5dda160d2c7fdd1a4ba",
         },
     },
 }
