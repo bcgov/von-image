@@ -128,7 +128,7 @@ WORKDIR $HOME
 RUN rm -rf indy-shared-rs
 
 
-ARG aries_askar_url=https://codeload.github.com/andrewwhitehead/aries-askar/tar.gz/8b1bb3092d45888f848b3135af9dd37c0db92160
+ARG aries_askar_url=https://codeload.github.com/andrewwhitehead/aries-askar/tar.gz/57a631bfcf8b71560edcef8fc901e4ce0ace60df
 
 # Download and extract aries-askar
 RUN mkdir aries-askar && \
@@ -242,20 +242,19 @@ RUN usermod -a -G 0 indy
 # Create standard directories to allow volume mounting and set permissions
 # Note: PIP_NO_CACHE_DIR environment variable should be cleared to allow caching
 RUN mkdir -p \
+    $HOME/.aries_cloudagent \
     $HOME/.cache/pip/http \
     $HOME/.indy-cli/networks \
     $HOME/.indy_client/wallet \
     $HOME/.indy_client/pool \
     $HOME/.indy_client/ledger-cache \
-    $HOME/.indy_client/indy-vdr \
-    $HOME/.aries_askar \
     $HOME/ledger/sandbox/data \
     $HOME/log
 
 # The root group needs access the directories under $HOME/.indy_client for the container to function in OpenShift.
 # Also ensure the permissions on the python 'site-packages' folder are set correctly.
 RUN chown -R indy:root $HOME/.indy_client \
-    && chmod -R ug+rw $HOME/log $HOME/ledger $HOME/.indy-cli $HOME/.indy_client $HOME/.cache $HOME/.aries_askar \
+    && chmod -R ug+rw $HOME/log $HOME/ledger $HOME/.aries_cloudagent $HOME/.cache $HOME/.indy-cli $HOME/.indy_client \
     && chmod +rx $(python -m site --user-site)
 
 USER $user
