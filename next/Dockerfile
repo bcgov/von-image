@@ -78,7 +78,7 @@ WORKDIR $HOME
 RUN rm -rf indy-sdk
 
 
-ARG indy_vdr_url=https://codeload.github.com/andrewwhitehead/indy-vdr/tar.gz/8b2c34fd8012a92ad1d22ff277d8b5352f4394bb
+ARG indy_vdr_url=https://codeload.github.com/andrewwhitehead/indy-vdr/tar.gz/aedd57ed5ca6c27c78bab946dbb7843048be750f
 
 # Download and extract indy-vdr
 RUN mkdir indy-vdr && \
@@ -104,7 +104,7 @@ WORKDIR $HOME
 RUN rm -rf indy-vdr
 
 
-ARG indy_shared_url=https://codeload.github.com/bcgov/indy-shared-rs/tar.gz/e407a7ddbe38fa2de779ae69f6159afbd699b2e2
+ARG indy_shared_url=https://codeload.github.com/bcgov/indy-shared-rs/tar.gz/7a8e49848a08bbda29e128b1913cc757076529b1
 
 # Download and extract indy-credx
 RUN mkdir indy-shared-rs && \
@@ -128,7 +128,7 @@ WORKDIR $HOME
 RUN rm -rf indy-shared-rs
 
 
-ARG aries_askar_url=https://codeload.github.com/andrewwhitehead/aries-askar/tar.gz/57a631bfcf8b71560edcef8fc901e4ce0ace60df
+ARG aries_askar_url=https://codeload.github.com/andrewwhitehead/aries-askar/tar.gz/0da224cccfcd20e074b3aa655bddaef86d95d988
 
 # Download and extract aries-askar
 RUN mkdir aries-askar && \
