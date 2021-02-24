@@ -164,7 +164,6 @@ FROM debian:buster-slim
 
 ARG uid=1001
 ARG user=indy
-ARG python_version=3.7.4
 ARG tag_name=von-image
 ARG tag_version=
 

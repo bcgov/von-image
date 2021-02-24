@@ -105,9 +105,9 @@ VERSIONS = {
 }
 
 DEFAULT_NAME = "bcgovimages/von-image"
-PY_35_VERSION = "3.5.7"
-PY_36_VERSION = "3.6.9"
-PY_37_VERSION = "3.7.4"
+PY_36_VERSION = "3.6.13"
+PY_37_VERSION = "3.7.10"
+PY_38_VERSION = "3.8.8"
 PY_DEFAULT_VERSION = PY_36_VERSION
 
 
@@ -135,13 +135,6 @@ parser.add_argument(
     help="output an updated Dockerfile with the build arguments replaced",
 )
 parser.add_argument(
-    "--py35",
-    dest="python",
-    action="store_const",
-    const=PY_35_VERSION,
-    help="build with the default python 3.5 version",
-)
-parser.add_argument(
     "--py36",
     dest="python",
     action="store_const",
@@ -154,6 +147,13 @@ parser.add_argument(
     action="store_const",
     const=PY_37_VERSION,
     help="build with the default python 3.7 version",
+)
+parser.add_argument(
+    "--py38",
+    dest="python",
+    action="store_const",
+    const=PY_38_VERSION,
+    help="build with the default python 3.8 version",
 )
 parser.add_argument("--python", help="use a specific python version")
 parser.add_argument("--push", action="store_true", help="push the resulting image")

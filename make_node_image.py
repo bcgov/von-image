@@ -7,7 +7,7 @@ import sys
 
 DEFAULT_NAME = "bcgovimages/von-image"
 PY_35_VERSION = "3.5.7"
-PY_36_VERSION = "3.6.9"
+PY_36_VERSION = "3.6.13"
 PY_DEFAULT_VERSION = PY_35_VERSION
 
 
