@@ -102,6 +102,17 @@ VERSIONS = {
             # 1.16.0 release
             "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/b4b330ef326958d593ab42e25679c2dcd655494c",
             "rust_version": "1.44.0",
+            "indy_postgres_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/b4b330ef326958d593ab42e25679c2dcd655494c",
+        },
+    },
+    "1.16.0pg": {
+        "path": "1.10",
+        "version": "1.16-0pg",
+        "args": {
+            # 1.16.0 release
+            "indy_sdk_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/b4b330ef326958d593ab42e25679c2dcd655494c",
+            "rust_version": "1.44.0",
+            "indy_postgres_url": "https://codeload.github.com/hyperledger/indy-sdk/tar.gz/9fbbb7939440b67e92f2698e868f14c2432cce72",
         },
     },
     "next-2": {

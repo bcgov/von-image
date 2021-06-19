@@ -99,7 +99,14 @@ RUN cd indy-sdk*/cli && \
     cp target/*/indy-cli "$HOME/.local/bin" && \
     cargo clean
 
+# grab the latest sdk code for the postgres plug-in
+WORKDIR $HOME
+ARG indy_postgres_url=${indy_sdk_url}
+RUN mkdir indy-postgres && \
+    curl "${indy_postgres_url}" | tar -xz -C indy-postgres
+
 # Build and install postgres_storage plugin
+WORKDIR $HOME/indy-postgres
 RUN cd indy-sdk*/experimental/plugins/postgres_storage && \
     cargo build ${indy_build_flags} && \
     cp target/*/libindystrgpostgres.so "$HOME/.local/lib" && \
@@ -107,7 +114,7 @@ RUN cd indy-sdk*/experimental/plugins/postgres_storage && \
 
 # Clean up
 WORKDIR $HOME
-RUN rm -rf .cargo .multirust .profile .rustup rustup indy-sdk
+RUN rm -rf .cargo .multirust .profile .rustup rustup indy-sdk indy-postgres
 
 # Install indy python libraries and other dependencies
 ADD requirements.txt .
