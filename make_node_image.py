@@ -46,7 +46,22 @@ VERSIONS = {
         },
         "python_version": PY_36_VERSION,
     },
+    "1.12a": {
+        "path": "node-1.12",
+        "version": "node-1.12-4",
+        "args": {
+            # 1.16.0 nebucaz/indy-sdk -fork
+            "indy_sdk_url": "https://codeload.github.com/nebucaz/indy-sdk/tar.gz/65076801439ef2175e001bb408670b4924ca4347",
+            # 0.3.2
+            # https://codeload.github.com/hyperledger/ursa/tar.gz/d764981144bce9f5b0f1c085a8ebad222f429690
+            "ursa_url": "https://codeload.github.com/hyperledger/ursa/tar.gz/394bcdf1413ac41793e96175d46d745ed6ffd970",
+            "rocksdb_lib_ver":"5.13.fb",
+            "rust_version": "1.56.0",
+        },
+        "python_version": PY_36_VERSION,
+     },
 }
+
 
 
 parser = argparse.ArgumentParser(description="Generate a von-image Docker image")
@@ -131,6 +146,10 @@ build_args.update(ver["args"])
 build_args["python_version"] = py_ver
 build_args["tag_name"] = tag_name
 build_args["tag_version"] = tag_version
+
+if args.platform:
+    build_args["platform"] = args.platform
+
 if not args.debug:
     build_args["indy_build_flags"] = "--release"
 if args.build_arg:
@@ -172,7 +191,9 @@ if args.platform:
     cmd_args.extend(["--platform", args.platform])
 
 cmd_args.append(target)
-cmd = ["docker", "build"] + cmd_args
+cmd = [
+    "docker",  
+    "build"] + cmd_args
 
 if args.dry_run:
     print(" ".join(cmd))
@@ -215,22 +236,31 @@ if args.s2i:
             print("Successfully tagged {}".format(s2i_tag))
 
 if not args.dry_run:
-    if args.test or args.push:
+    if args.test:
+        #or args.push:
+        # error is thrown, when image is not in repo
         test_path = target + "/Dockerfile.test"
         test_tag = tag + "-test"
-        proc_bt = subprocess.run(
-            [
-                "docker",
-                "build",
-                "--build-arg",
-                "base_image=" + tag,
-                "-t",
-                test_tag,
-                "-f",
-                test_path,
-                target,
-            ]
-        )
+
+        cmd_test_args = []
+        if args.platform:
+            cmd_test_args.extend(["--platform", args.platform])
+        
+        cmd_args = []
+        #for k, v in build_args.items():
+        cmd_args.extend(["--build-arg", "base_image=" + tag])
+        cmd_args.extend(["-t", test_tag])
+        cmd_args.extend(["-f", test_path])
+
+        if args.platform:
+            cmd_args.extend(["--platform", args.platform])
+
+        cmd_args.append(target)
+        cmd_test = [
+            "docker",  
+            "build"] + cmd_args
+
+        proc_bt = subprocess.run(cmd_test)
         if proc_bt.returncode:
             print("test image build failed")
             sys.exit(1)
