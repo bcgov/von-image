@@ -15,7 +15,6 @@ RUN apt-get update -y && \
         cmake \
         curl \
         flex \
-        gettext \
         git \
         libbz2-dev \
         libffi-dev \
