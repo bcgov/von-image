@@ -37,6 +37,7 @@ These images include the Indy Node library for hosting an Indy ledger node or po
 
 | Image tag         | indy-node version          | indy-sdk version           | python version             |
 |-------------------|----------------------------|----------------------------|----------------------------|
+| node-1.12-6       | 1.12.6                     | 1.16.0                     | 3.6.13                      |
 | node-1.12-4       | 1.12.4                     | 1.16.0                     | 3.6.9                      |
 | node-1.12-3       | 1.12.3                     | 1.15.0                     | 3.6.9                      |
 | node-1.12-2       | 1.12.2                     | 1.14.1                     | 3.6.9                      |
