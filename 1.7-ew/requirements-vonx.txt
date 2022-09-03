@@ -1,3 +1,0 @@
-# build as follows:
-# python ./make_image.py --build-arg VONX_FORCE=True --py36 --s2i 1.7-ew
-git+git://github.com/PSPC-SPAC-buyandsell/von_anchor.git@ian-1.7.2020-02-11#egg=von-anchor
