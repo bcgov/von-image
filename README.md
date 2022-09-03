@@ -41,11 +41,6 @@ These images include the Indy Node library for hosting an Indy ledger node or po
 | node-1.12-4       | 1.12.4                     | 1.16.0                     | 3.6.9                      |
 | node-1.12-3       | 1.12.3                     | 1.15.0                     | 3.6.9                      |
 | node-1.12-2       | 1.12.2                     | 1.14.1                     | 3.6.9                      |
-| node-1.9-4        | 1.9.2 (gettext added)      | 1.11.1                     | 3.5.7                      |
-| node-1.9-3        | 1.9.2                      | 1.11.1                     | 3.5.7                      |
-| node-1.9-2        | 1.9.0                      | 1.11.0                     | 3.5.7                      |
-| node-1.9-1        | 1.9.0                      | 1.10.1                     | 3.5.6                      |
-| node-1.9-0        | 1.9.0                      | 1.8.3                      | 3.5.6                      |
 
 ## Indy SDK 1.8 images (out-dated)
 
@@ -77,7 +72,6 @@ The `py35-*` images are intended for running `indy-node` containers such as `von
 
 | Image tag       | indy-sdk                   | von_anchor  | von-x       | didauth     | indy-node       |
 |-----------------|----------------------------|-------------|-------------|-------------|-----------------|
-| 1.7-ew-0        | 1.7.0 with postgres plugin | 1.7.1       | 1.4.7       | 1.2.3       | dev-1.6.636     |
 | 1.6-9           | 1.6.7                      | 1.6.33      | 1.4.2       | 1.2.2       | dev-1.6.636     |
 | 1.6-8           | 1.6.7                      | 1.6.31      | 1.4.0       | 1.2.2       | dev-1.6.636     |
 | 1.6-7           | 1.6.5                      | 1.6.28      | 1.4.0       | 1.2.2       | dev-1.4.463     |

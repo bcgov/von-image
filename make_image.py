@@ -7,16 +7,6 @@ import sys
 import random
 
 VERSIONS = {
-    "1.7-ew": {
-        "version": "1.7-ew-1",
-        "args": {
-            # 1.14.1 release
-            "indy_sdk_url": "https://codeload.github.com/ianco/indy-sdk/tar.gz/4825ab317d541f89142ac108e230d09ff76c9969",
-            "rust_version": "1.37.0",
-            # 0.5.0
-            "indy_crypto_url": "https://codeload.github.com/hyperledger/indy-crypto/tar.gz/c323bd0046e4e7da936ad1682a401c557c74345b",
-        },
-    },
     "1.8": {
         "version": "1.8-5",
         "args": {
