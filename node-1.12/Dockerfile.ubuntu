@@ -1,4 +1,5 @@
-FROM ubuntu:18.04 as builder
+ARG platform=linux/amd64
+FROM --platform=${platform} ubuntu:18.04 as builder
 
 ARG user=indy
 ENV HOME="/home/$user"
@@ -157,7 +158,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 
 ## Start fresh (new image) ##
-FROM ubuntu:18.04
+FROM --platform=${platform} ubuntu:18.04 
 
 
 ARG uid=1001
