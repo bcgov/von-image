@@ -34,7 +34,7 @@ RUN apt-get update -y && \
     rm -rf /var/lib/apt/lists/*
 
 # set to --release for smaller, optimized library
-ARG indy_build_flags=
+ARG indy_build_flags=--release
 
 # overridden by the build script
 ARG indy_sdk_url=https://codeload.github.com/hyperledger/indy-sdk/tar.gz/ae9f8a252bb99e8b80c6d34c6c985fd95abfadef
