@@ -1,3 +1,5 @@
+[![Lifecycle:Stable](https://img.shields.io/badge/Lifecycle-Stable-97ca00)](https://github.com/bcgov/repomountie/blob/master/doc/lifecycle-badges.md)
+
 # Docker images for Verified Organizations Network components
 
 In support of VON a set of Docker images are published for running Hyperledger Indy components. The image repository is located [on Docker Hub](https://hub.docker.com/r/bcgovimages/von-image/).
