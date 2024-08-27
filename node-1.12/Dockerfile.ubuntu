@@ -40,7 +40,7 @@ ARG nacl_lib_ver=1.0.16
 
 # Build and install libsodium library
 RUN curl -o libsodium-${nacl_lib_ver}.tar.gz \
-        "https://download.libsodium.org/libsodium/releases/old/libsodium-${nacl_lib_ver}.tar.gz" && \
+        "https://download.libsodium.org/libsodium/releases/old/unsupported/libsodium-${nacl_lib_ver}.tar.gz" && \
     tar xzvf libsodium-${nacl_lib_ver}.tar.gz && \
     cd libsodium-${nacl_lib_ver} && \
     CFLAGS="-Os" ./configure && \
